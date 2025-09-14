@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(0, 360)] private float _minAngularSpeed = 25;
     [Header("Animations attributes")]
     [SerializeField][Range(0, 2)] private float _stanceChangeMultiplier = 0.5f;
-    [SerializeField][Range(0.1f, 5)] private float _animationSpeedMultiplier = 0.5f;
     [SerializeField] private Animator _animator;
 
     [Header("Colliders references")]

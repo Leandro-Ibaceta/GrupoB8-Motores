@@ -28,7 +28,7 @@ public class Survilance : MonoBehaviour
     private bool _playerInSight;
     private bool _positiveRotation;
     private int _direction;
-    Vector3[] _playerColliderLimits = new Vector3[7];
+    Vector3[] _playerColliderLimits = new Vector3[6];
     #endregion
     #region PROPERTIES
     public float DetectedTime
@@ -117,6 +117,7 @@ public class Survilance : MonoBehaviour
     public void NoiseDetected(Vector3 position)
     {
         _enemyAgent.LastPlayerPosition = position;
+        Debug.Log("aca esta el probliema");
         CallToInvestigate();
     }
     private void SightDetected()
@@ -128,25 +129,27 @@ public class Survilance : MonoBehaviour
         _enemyAgent.ActualState = Enemy_agent.ENEMY_STATE.INVESTIGATING;
     }
 
-    bool checkPlayerCover(Collider playerCollider) // esta funcion permite saber si hay un obstaculo entre ambos objetos
+    bool checkPlayerOnSight(Collider playerCollider) // esta funcion permite saber si hay un obstaculo entre ambos objetos
     {
    
-        _playerColliderLimits[0] = playerCollider.transform.position;
-        _playerColliderLimits[1] = playerCollider.bounds.center + new Vector3(0, playerCollider.bounds.extents.y, 0);
-        _playerColliderLimits[2] = playerCollider.bounds.center - new Vector3(0, playerCollider.bounds.extents.y, 0);
-        _playerColliderLimits[3] = playerCollider.bounds.center + new Vector3(playerCollider.bounds.extents.x, 0, 0);
-        _playerColliderLimits[4] = playerCollider.bounds.center - new Vector3(playerCollider.bounds.extents.x, 0,0);
-        _playerColliderLimits[5] = playerCollider.bounds.center + new Vector3(0,0, playerCollider.bounds.extents.z);
-        _playerColliderLimits[6] = playerCollider.bounds.center - new Vector3(0, 0, playerCollider.bounds.extents.z);
+        // calcula los boundaries del clollider del jugador
+        _playerColliderLimits[0] = playerCollider.bounds.center + new Vector3(0, playerCollider.bounds.extents.y, 0);
+        _playerColliderLimits[1] = playerCollider.bounds.center - new Vector3(0, playerCollider.bounds.extents.y, 0);
+        _playerColliderLimits[2] = playerCollider.bounds.center + new Vector3(playerCollider.bounds.extents.x, 0, 0);
+        _playerColliderLimits[3] = playerCollider.bounds.center - new Vector3(playerCollider.bounds.extents.x, 0,0);
+        _playerColliderLimits[4] = playerCollider.bounds.center + new Vector3(0,0, playerCollider.bounds.extents.z);
+        _playerColliderLimits[5] = playerCollider.bounds.center - new Vector3(0, 0, playerCollider.bounds.extents.z);
+        // recorre cada posicion y chequeo si hay un obtaculo en el medio, en cualquiera que no este obscatulizado
+        // devuelve true
         foreach (Vector3 boundPosition in _playerColliderLimits)
         {
             Debug.DrawLine(_parent.transform.position, boundPosition, Color.black);
             if (!Physics.Linecast(_parent.transform.position, boundPosition, _obstaclesLayers, QueryTriggerInteraction.Ignore))
             {
+                
                 return true;
             }
         }
-       
         return false;
     }
      void OnTriggerStay(Collider collision)
@@ -155,12 +158,13 @@ public class Survilance : MonoBehaviour
         // si es el jugador, lo detecta y va actualizando su posicion mientras sea detectado y no tenga obstaculos en el medio
         if((1 << collision.gameObject.layer & _playerLayer) != 0)
         {
-            _playerInSight = checkPlayerCover(collision);
-           
+            _playerInSight = checkPlayerOnSight(collision);
             if (_playerInSight)
             {
+                
                 if (!_playerDetected)
                 {
+                  
                     _playerDetected = true;
                 }
                 _enemyAgent.LastPlayerPosition = collision.transform.position;
@@ -169,13 +173,14 @@ public class Survilance : MonoBehaviour
         }
     }
     private void OnTriggerExit(Collider collision)
-
     {   // en caso de que salga del cono de vision, y no este obstaculizado, guarda la ultima posicion conocida del jugador.
-        if (checkPlayerCover(collision))
+        if ((1 << collision.gameObject.layer & _playerLayer) != 0)
         {
-          _enemyAgent.LastPlayerPosition = collision.transform.position;
+            if (checkPlayerOnSight(collision))
+            {
+                _enemyAgent.LastPlayerPosition = collision.transform.position;
+            }
+            _playerInSight = false; // marca que el jugador no esta siendo visto
         }
-        _playerInSight = false; // marca que el jugador no esta siendo visto
-       
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8895302974426484095}
   - component: {fileID: 6488309645153751941}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: Security_guard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1275
+  m_VersionIndex: 1296
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -587,7 +587,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e9722bef166f92443b2bfbb94c7b43f2, type: 2}
+  - {fileID: 2100000, guid: a956ce904fb20f84b9479437a29d50f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
     m_Bits: 128
   _obstaclesLayers:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 319
   _coneRotationSpeed: 50
   _maxAngle: 45
   _minimalDetectionDistance: 5
@@ -1269,44 +1269,56 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.834301
+      objectReference: {fileID: 0}
+    - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.196874
+      objectReference: {fileID: 0}
+    - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.383352
+      objectReference: {fileID: 0}
+    - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.036
+      value: -0.055
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.112
+      value: 0.091
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.02
+      value: 0.186
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.46387333
+      value: 0.08309279
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.09811736
+      value: 0.8680557
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.10628121
+      value: 0.4685827
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.87401307
+      value: 0.14143941
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -5.437
+      value: 0.671
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -15.744
+      value: -198.872
       objectReference: {fileID: 0}
     - target: {fileID: 244153961155980423, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -123.334
+      value: -236.832
       objectReference: {fileID: 0}
     - target: {fileID: 324753602627443995, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
       propertyPath: m_Layer
@@ -1752,12 +1764,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.4079165, y: 0.02000007, z: 0.030369248}
-  m_Center: {x: 0.12912478, y: -0.000000014836886, z: -0.0015547114}
+  m_Size: {x: 0.46047723, y: 0.05410403, z: 0.03747852}
+  m_Center: {x: 0.15540516, y: -0.017052082, z: 0.001999875}
 --- !u!114 &6601355218808230525
 MonoBehaviour:
   m_ObjectHideFlags: 0
