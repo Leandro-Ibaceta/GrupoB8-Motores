@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     #region INSPECTOR ATTRIBUTES
 
     [Header("Displacement attributes")]
+    [SerializeField] private float _staminaCost = 5;
     [SerializeField] private TYPE_OF_MOVEMENT _typeOfDisplacement = TYPE_OF_MOVEMENT.WITH_LATERAL_DISPLACEMENT;
     [SerializeField] public float _maxNormalVelocity = 15;
     [SerializeField] public float _maxSprintVelocity = 25;
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
     #region INTERNAL_ATTRIBUTES
+    private bool _haveStamina = true;
     private float _forceVectorMagnitude;
     private float _angularSpeed;
     private float _rotationAngle;
@@ -53,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
     public bool OnShoulderCam
     {
         get { return _onShoulderCam; }
+    }
+
+    public bool HaveStamina
+    {
+        set { _haveStamina = value; }
     }
     #endregion
 

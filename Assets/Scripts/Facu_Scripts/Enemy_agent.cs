@@ -83,7 +83,7 @@ public class Enemy_agent : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.acceleration = _aceleration;
         _agent.stoppingDistance = _stoppingDistance;
-        _player = GameObject.Find("Player").transform;
+        _player = GameObject.Find("PlayerHealth").transform;
         _securityGuard = GetComponent<SecurityGuard>();
     }
     void Update()
