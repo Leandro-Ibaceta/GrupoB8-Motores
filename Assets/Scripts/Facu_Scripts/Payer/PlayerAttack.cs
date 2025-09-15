@@ -19,7 +19,6 @@ public class PlayerAttack : MonoBehaviour
             _camera = Camera.main;
         }
         _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
-
     }
     private void Update()
     {

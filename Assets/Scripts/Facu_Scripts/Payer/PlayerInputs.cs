@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class PlayerInputs : MonoBehaviour
 {
     #region INSPECTOR_ATTRIBUTES
@@ -28,13 +29,13 @@ public class PlayerInputs : MonoBehaviour
     private float _xAxis;
     private float _lateralAxis;
     private float _speedAxis;
-    private bool _lowStanceHeldPressed;
-    private bool _highStanceHeldPresed;
+    private bool _lowStancePressed;
+    private bool _highStancePresed;
     private bool _isSprintHeldPressed;
     #endregion
     #region PROPERTIES
-    public bool IsLowHeldStancePressed { get { return _lowStanceHeldPressed; } }
-    public bool IsHighHeldStancePressed { get { return _highStanceHeldPresed; } }
+    public bool IsLowStancePressed { get { return _lowStancePressed; } }
+    public bool IsHighStancePressed { get { return _highStancePresed; } }
     public bool IsSprintHeldPressed { get { return _isSprintHeldPressed; } }
     public float MouseYAxis { get { return _mouseYAxis; } }
     public float MouseXAxis { get { return _mouseXAxis; } }
@@ -61,14 +62,24 @@ public class PlayerInputs : MonoBehaviour
     {
         _mouseYAxis = _isMouseYAxisInverted ? -1 : 1 * -Input.GetAxis("Mouse Y") * _mouseVerticallSensitivity;
         _mouseXAxis = _isMouseXAxisInverted ? -1 : 1 * Input.GetAxis("Mouse X") * _mouseHorizontalSensitivity;
+
+        _isRMBClicked = Input.GetMouseButtonDown(1);
         _isRMBHeldPressed = Input.GetMouseButton(1);
+        _isRMBReleased = Input.GetMouseButtonUp(1);
+
+        _isLMBClicked = Input.GetMouseButtonDown(0);
         _isLMBHeldPressed = Input.GetMouseButton(0);
+        _isLMBReleased = Input.GetMouseButtonUp(0);
+
         _yAxis = _isYAxisInverted? -1:1 * Input.GetAxis("Vertical"); 
         _xAxis = _isXAxisInverted? -1:1 * Input.GetAxis("Horizontal");
         _lateralAxis = _isLateralAxisInverted? -1:1 * Input.GetAxis("Horizontal_displacement");
+
         _speedAxis = Input.GetAxis("Mouse ScrollWheel");
-        _lowStanceHeldPressed = Input.GetButton("Crouch");
-        _highStanceHeldPresed = Input.GetButton("Jump");
+
+        _lowStancePressed = Input.GetButtonDown("Crouch");
+        _highStancePresed = Input.GetButtonDown("Jump");
+
         _isSprintHeldPressed = Input.GetButton("Sprint");
     }
 }

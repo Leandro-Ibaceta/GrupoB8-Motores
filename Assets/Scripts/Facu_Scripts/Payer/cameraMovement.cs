@@ -37,6 +37,15 @@ public class cameraMovement : MonoBehaviour
         Cursor.lockState = _lockMode;
         Input.ResetInputAxes();
         _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+    }
+
+    private void Update()
+    {
+
+        #region MOUSE_AXIS_PARAMETRIZATION
+        _yAxis = _playerManager.Inputs.MouseYAxis;
+        _xAxis = _playerManager.Inputs.MouseXAxis;
+        #endregion
 
     }
 
@@ -44,33 +53,45 @@ public class cameraMovement : MonoBehaviour
     {
 
 
-        #region MOUSE_AXIS_PARAMETRIZATION
-        _yAxis = _playerManager.Inputs.MouseYAxis;
-        _xAxis = _playerManager.Inputs.MouseXAxis;
-        #endregion
         #region VERTICAL_CLAMPING
-        _verticalReference = Vector3.Angle(_target.up, (transform.position - _target.position).normalized);
-        if(_verticalReference < _maxAngleOfCamera/2) 
+        if (_playerManager.Inputs.IsRMBHeldPressed)
         {
-            _yAxis = Mathf.Clamp(_yAxis, -1, 0);
+            _verticalReference = Vector3.Angle(_shoulderCameraPosition.forward, transform.forward);
+            if (_verticalReference <= _maxAngleOfCamera / 2)
+            {
+                _yAxis = Mathf.Clamp(_yAxis, 0, 1);
+            }
+            else if (_verticalReference >= - _maxAngleOfCamera / 2)
+            {
+                _yAxis = Mathf.Clamp(_yAxis, -1, 0);
+            }
         }
-        else if(_verticalReference >= (90-_maxAngleOfCamera / 2))
+        else
         {
-            _yAxis = Mathf.Clamp(_yAxis, 0, 1);
+            _verticalReference = Vector3.Angle(_target.up, (transform.position - _target.position).normalized);
+            if (_verticalReference < _maxAngleOfCamera / 2)
+            {
+                _yAxis = Mathf.Clamp(_yAxis, -1, 0);
+            }
+            else if (_verticalReference >= (90 - _maxAngleOfCamera / 2))
+            {
+                _yAxis = Mathf.Clamp(_yAxis, 0, 1);
+            }
         }
+            
         #endregion
         #region SHOULDER_CAM_TO_NORMAL_CAM_TRANSITION && ROTATION_APPLICATION
+
         if (_playerManager.Inputs.IsRMBClicked)
         {
-            transform.localPosition = _startPosition;
-            transform.localRotation = _startRotation;
+            transform.localPosition = _shoulderCameraPosition.localPosition;
+            transform.localRotation = _shoulderCameraPosition.localRotation;
         }
         if (_playerManager.Inputs.IsRMBHeldPressed)
         {
-            transform.position = _shoulderCameraPosition.position;
             _target.Rotate(_target.transform.up,_xAxis);
             _camera.fieldOfView = _aimingFOV;
-
+            transform.RotateAround(transform.position, transform.right, _yAxis);
         }
         else if (_playerManager.Inputs.IsRMBReleased)
         {
@@ -78,14 +99,11 @@ public class cameraMovement : MonoBehaviour
             transform.localRotation = _startRotation;
             _camera.fieldOfView = _normalFOV;
         }
-       
         else
         {
-
-            transform.LookAt(_target.position);
             transform.RotateAround(_target.position, _target.up, _xAxis);
+            transform.LookAt(_target.position);
         }
-            transform.RotateAround(_target.position, transform.right, _yAxis);
         #endregion
 
     }

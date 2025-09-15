@@ -11,9 +11,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Displacement attributes")]
     [SerializeField] private float _staminaCost = 5;
     [SerializeField] private TYPE_OF_MOVEMENT _typeOfDisplacement = TYPE_OF_MOVEMENT.WITH_LATERAL_DISPLACEMENT;
-    [SerializeField] public float _maxNormalVelocity = 15;
+    [SerializeField] public float _maxNormalVelocity = 10;
+    [SerializeField] public float _maxCrouchVelocity = 4;
+    [SerializeField] public float _maxCrawlVelocity = 2;
     [SerializeField] public float _maxSprintVelocity = 25;
-    [SerializeField] public float _minNormalVelocity = 4;
+    [SerializeField] public float _minNormalVelocity = 1;
     [SerializeField][Range(0, 100)] private float _scrollWheelAceleration = 10;
     [SerializeField] private float _maxForceApplied = 500;
     [SerializeField] private float _minForceApplied = 150;
@@ -22,29 +24,33 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(0, 360)] private float _minAngularSpeed = 25;
     [Header("Animations attributes")]
     [SerializeField][Range(0, 2)] private float _stanceChangeMultiplier = 0.5f;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private Transform playerGFX;
 
     [Header("Colliders references")]
-    [SerializeField] private BoxCollider _walkCollider;
-    [SerializeField] private BoxCollider _crawlCollider;
-    [SerializeField] private BoxCollider _collider;
+    [SerializeField] private CapsuleCollider _walkCollider;
+    [SerializeField] private CapsuleCollider _crouchCollider;
+    [SerializeField] private CapsuleCollider _crawlCollider;
+
 
 
     #endregion
     #region INTERNAL_ATTRIBUTES
+    private int _stanceStep = 0;
     private bool _haveStamina = true;
+    private bool _isRuning = false;
     private float _forceVectorMagnitude;
+    private float _relativeSpeed;
     private float _angularSpeed;
     private float _rotationAngle;
     private float _maxVelocity;
-    private float _interpolationValue;
-    private float _stance;
+    private float _speedInterpolation;
     private Vector3 _moveV;
     private Vector3 _moveH;
     private Vector3 _forceVector;
     private Quaternion _rotation = Quaternion.identity;
     private bool _onShoulderCam = false;
     private Rigidbody _rb;
+    private PlayerManager _playerManager;
     #endregion
     #region PROPERTIES
     public float Speed
@@ -70,22 +76,23 @@ public class PlayerMovement : MonoBehaviour
         _rb.freezeRotation = true;
         _maxVelocity = _maxNormalVelocity;
         _rb.maxLinearVelocity = _maxVelocity;
+        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
     }
 
     void Update()
     {
         #region FORCE_MAGNITUDE
-        _interpolationValue += (Input.GetAxis("Mouse ScrollWheel") * _scrollWheelAceleration * Time.deltaTime);
-        _interpolationValue = Mathf.Clamp(_interpolationValue, 0f, 1f);
+        _speedInterpolation += (_playerManager.Inputs.SpeedAxis * _scrollWheelAceleration * Time.deltaTime);
+        _speedInterpolation = Mathf.Clamp(_speedInterpolation, 0f, 1f);
 
-        _forceVectorMagnitude = Mathf.Lerp(_minForceApplied, _maxForceApplied, _interpolationValue);
-        _angularSpeed = Mathf.Lerp(_maxAngularSpeed, _minAngularSpeed, _interpolationValue);
+        _forceVectorMagnitude = Mathf.Lerp(_minForceApplied, _maxForceApplied, _speedInterpolation);
+        _angularSpeed = Mathf.Lerp(_maxAngularSpeed, _minAngularSpeed, _speedInterpolation);
         #endregion
         #region LATERAL_ROTATION
-        if (!Input.GetMouseButton(1))
+        if (!_playerManager.Inputs.IsRMBHeldPressed)
         {
             _onShoulderCam = false;
-            _rotationAngle = Input.GetAxis("Horizontal") * _angularSpeed * Time.deltaTime;
+            _rotationAngle = _playerManager.Inputs.XAxis * _angularSpeed * Time.deltaTime;
             _rotation = transform.rotation * Quaternion.Euler(0, _rotationAngle, 0);
         }
         else
@@ -96,34 +103,70 @@ public class PlayerMovement : MonoBehaviour
         #region LATERAL_DISPLACEMENT
         if (_typeOfDisplacement == TYPE_OF_MOVEMENT.WITH_LATERAL_DISPLACEMENT)
         {
-            _moveH = transform.right * Input.GetAxis("Horizontal");
+            _moveH = transform.right * _playerManager.Inputs.XAxis;
+
+            if (_forceVector != Vector3.zero && !_onShoulderCam)
+                playerGFX.localRotation = Quaternion.Lerp(playerGFX.localRotation, Quaternion.LookRotation(_forceVector), _angularSpeed * Time.deltaTime);
+            else if (OnShoulderCam)
+                playerGFX.localRotation = Quaternion.identity;
+           
         }
         else
         {
-            _moveH = transform.right * Input.GetAxis("Horizontal_displacement");
+            _moveH = transform.right * _playerManager.Inputs.LateralAxis;
         }
         #endregion
         #region FORCE_VECTOR_CALCULATION
-        _moveV = transform.forward * Input.GetAxis("Vertical");
+        _moveV = transform.forward * _playerManager.Inputs.YAxis;
         _forceVector = (_moveH + _moveV).normalized * _forceVectorMagnitude * Time.deltaTime;
         #endregion
         #region STANCE_MODIFICATION_&_COLLISION
-        if (Input.GetButton("Crouch"))
-        {
-            _stance += Time.deltaTime * _stanceChangeMultiplier;
-            if(_stance > 1) _stance = 1;    
-            _animator.SetFloat("Stances_value", _stance);
+        if (_playerManager.Inputs.IsSprintHeldPressed && _haveStamina)
+        { 
+            _maxVelocity = _maxSprintVelocity;
+            _stanceStep = 0;
+            _isRuning = true;
+            _playerManager.Stamina.DrainStamina();
         }
-        if(Input.GetButton("StandUp"))
+        else
         {
-            _stance -= Time.deltaTime * _stanceChangeMultiplier;
-            if( _stance < 0 ) _stance = 0;
-            _animator.SetFloat("Stances_value", _stance);
+            _isRuning = false;
+            if (_playerManager.Inputs.IsLowStancePressed)
+            {
+                _stanceStep++;
+            }
+            if (_playerManager.Inputs.IsHighStancePressed)
+            {
+                _stanceStep--;
+            }
+            _stanceStep = math.clamp(_stanceStep,0, 3);
+
         }
-        _maxVelocity = math.lerp(_maxNormalVelocity, _minNormalVelocity, _stance);
+        switch (_stanceStep)
+        {
+            case 0:
+                _playerManager.PlayerAnimation.ChangeAnimationSpeed(1);
+                _maxVelocity = _maxNormalVelocity;
+                _walkCollider.enabled = true;
+                _crawlCollider.enabled = false;
+                _crouchCollider.enabled = false;
+                break;
+            case 1:
+                _maxVelocity = _maxCrouchVelocity;
+                _crouchCollider.enabled = true;
+                _walkCollider.enabled = false;
+                _crawlCollider.enabled = false;
+                break;
+            case 2:
+                _maxVelocity = _maxCrawlVelocity;
+                _crawlCollider.enabled = true;
+                _crouchCollider.enabled = false;
+                _walkCollider.enabled = false;
+                break;
+
+        }
         _rb.maxLinearVelocity = _maxVelocity;
-        _collider.center = Vector3.Lerp(_walkCollider.center, _crawlCollider.center, _stance);
-        _collider.size = Vector3.Lerp(_walkCollider.size, _crawlCollider.size, _stance);
+        _playerManager.PlayerAnimation.ChangeStanceValue(_stanceStep);
 
         #endregion
 
@@ -135,7 +178,16 @@ public class PlayerMovement : MonoBehaviour
         _rb.AddForce(_forceVector );
         if (!_onShoulderCam && _typeOfDisplacement == TYPE_OF_MOVEMENT.WITHOUT_LATERAL_DISPLACEMENT)
             _rb.MoveRotation(_rotation);
-        _animator.speed = (_rb.linearVelocity.magnitude) / _maxVelocity; //  * _animationSpeedMultiplier
+        _relativeSpeed = (_rb.linearVelocity.magnitude) / _maxVelocity;
+        if (_isRuning)
+            _playerManager.PlayerAnimation.ChangePlayerSpeed(Mathf.Lerp(-1,1, _relativeSpeed));
+        else if(_stanceStep == 0)
+            _playerManager.PlayerAnimation.ChangePlayerSpeed(Mathf.Lerp(-1, 0, _relativeSpeed));
+        else
+            _playerManager.PlayerAnimation.ChangeAnimationSpeed(Mathf.Lerp(0, 1, _relativeSpeed));
+
+
+
     }
 
 }
