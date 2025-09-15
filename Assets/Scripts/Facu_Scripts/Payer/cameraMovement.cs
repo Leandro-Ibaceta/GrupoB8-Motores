@@ -6,13 +6,9 @@ using UnityEngine.InputSystem.LowLevel;
 public class cameraMovement : MonoBehaviour
 {
     #region INSPECTOR_ATTRIBUTES
-    [Header("Sensitivity attributes")]
-    [SerializeField][Range(0,50)] private float _mouseHorizontalSensitivity = 10;
-    [SerializeField][Range(0, 50)] private float _mouseVerticallSensitivity = 10;
+
     [Header("Axis direction attributes")]
     [SerializeField] private float _maxAngleOfCamera = 45;
-    [SerializeField]private bool _xAxisInverted = false;
-    [SerializeField]private bool _yAxisInverted = false;
     [Header("Camera attributes")]
     [SerializeField][Range(25, 60)] private float _aimingFOV;
     [Header("Cursor attributes")]
@@ -22,6 +18,7 @@ public class cameraMovement : MonoBehaviour
     [SerializeField] private Transform _shoulderCameraPosition;
     #endregion
     #region INTERNAL_ATTRIBUTES
+    private PlayerManager _playerManager;
     private Vector3 _startPosition;
     private float _normalFOV;
     private float _verticalReference;
@@ -31,8 +28,6 @@ public class cameraMovement : MonoBehaviour
     private Camera _camera;
     #endregion
 
-
-
     void Start()
     {
         _startPosition = transform.localPosition;
@@ -41,6 +36,8 @@ public class cameraMovement : MonoBehaviour
         _normalFOV = _camera.fieldOfView;
         Cursor.lockState = _lockMode;
         Input.ResetInputAxes();
+        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+
     }
 
     void LateUpdate()
@@ -48,8 +45,8 @@ public class cameraMovement : MonoBehaviour
 
 
         #region MOUSE_AXIS_PARAMETRIZATION
-        _yAxis = (_yAxisInverted?-1:1) * -Input.GetAxis("Mouse Y") * _mouseVerticallSensitivity ;
-        _xAxis = (_xAxisInverted ? -1 : 1) * Input.GetAxis("Mouse X") * _mouseHorizontalSensitivity ;
+        _yAxis = _playerManager.Inputs.MouseYAxis;
+        _xAxis = _playerManager.Inputs.MouseXAxis;
         #endregion
         #region VERTICAL_CLAMPING
         _verticalReference = Vector3.Angle(_target.up, (transform.position - _target.position).normalized);
@@ -63,19 +60,19 @@ public class cameraMovement : MonoBehaviour
         }
         #endregion
         #region SHOULDER_CAM_TO_NORMAL_CAM_TRANSITION && ROTATION_APPLICATION
-        if (Input.GetMouseButtonDown(1))
+        if (_playerManager.Inputs.IsRMBClicked)
         {
             transform.localPosition = _startPosition;
             transform.localRotation = _startRotation;
         }
-        if (Input.GetMouseButton(1))
+        if (_playerManager.Inputs.IsRMBHeldPressed)
         {
             transform.position = _shoulderCameraPosition.position;
             _target.Rotate(_target.transform.up,_xAxis);
             _camera.fieldOfView = _aimingFOV;
 
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (_playerManager.Inputs.IsRMBReleased)
         {
             transform.localPosition = _startPosition;
             transform.localRotation = _startRotation;

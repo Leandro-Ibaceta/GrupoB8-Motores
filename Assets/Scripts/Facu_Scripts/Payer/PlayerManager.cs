@@ -10,4 +10,14 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerHealth _health;
     [SerializeField] private cameraMovement _cameraMovement;
 
+    public PlayerMovement Movement { get { return _movement; } }
+    public PlayerStealth Stelth { get { return _stelth; } } 
+    public PlayerAttack Attack { get { return _attack; } }
+    public PlayerInputs Inputs { get { return _inputs; } }
+    public PlayerStamina Stamina { get { return _stamina; } }
+    public PlayerHealth Health { get { return _health; } }
+    public cameraMovement CameraMovement { get { return _cameraMovement; } }
+
+
+
 }
