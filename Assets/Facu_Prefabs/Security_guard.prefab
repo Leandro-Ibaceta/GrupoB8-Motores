@@ -160,8 +160,8 @@ GameObject:
   - component: {fileID: 4339666636931740712}
   - component: {fileID: 666262411153876792}
   - component: {fileID: 8679059904366711469}
-  - component: {fileID: 6856779084573821914}
-  m_Layer: 6
+  - component: {fileID: 6197060969378759644}
+  m_Layer: 2
   m_Name: Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1296
+  m_VersionIndex: 1311
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -639,7 +639,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &6856779084573821914
+--- !u!114 &6197060969378759644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -648,21 +648,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8637009403568122603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 517e4ee02eff61b4eb16b53f93402649, type: 3}
+  m_Script: {fileID: 11500000, guid: 2311f453271dd7a40a5552fe2663cee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSuspectionTime: 2
-  _maxDetectionTime: 6
-  _cooldawnFactor: 0.5
+  _maxSuspectionTime: 3
+  _maxDetectionTime: 5
+  _cooldawnFactor: 2
   _playerLayer:
     serializedVersion: 2
     m_Bits: 128
   _obstaclesLayers:
     serializedVersion: 2
-    m_Bits: 319
-  _coneRotationSpeed: 50
-  _maxAngle: 45
-  _minimalDetectionDistance: 5
+    m_Bits: 264
+  _coneRotationSpeed: 30
+  _maxAngle: 90
+  _minimalDetectionDistance: 2
   _parent: {fileID: 2990156063309493938}
 --- !u!1 &9138425681796269121
 GameObject:

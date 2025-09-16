@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Survilance : MonoBehaviour
+public class Enemy_Survilance : MonoBehaviour
 {
     #region INSPECTOR_ATTRIBUTES
     [Header("Detection time attributes")]
@@ -114,17 +114,16 @@ public class Survilance : MonoBehaviour
         }
 
     }
-    public void NoiseDetected(Vector3 position)
+    public void NoiseDetected(Vector3 position) // llama a la investigacion y guarda la posicion del ruido
     {
         _enemyAgent.LastPlayerPosition = position;
-        Debug.Log("aca esta el probliema");
         CallToInvestigate();
     }
-    private void SightDetected()
+    private void SightDetected() // llama al ataque en caso de que el jugador este a la vista
     {
         _enemyAgent.ActualState = Enemy_agent.ENEMY_STATE.ATTACKING;
     }
-    private void CallToInvestigate()
+    private void CallToInvestigate() // llama a la investigacion del enemigo
     {
         _enemyAgent.ActualState = Enemy_agent.ENEMY_STATE.INVESTIGATING;
     }

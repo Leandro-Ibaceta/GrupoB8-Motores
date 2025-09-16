@@ -12,7 +12,7 @@ public class PlayerStealth : MonoBehaviour
     private Rigidbody _rb;
     float _detectionRadious;
     Collider[] _colliders;
-    private Survilance _enemySurvilance;
+    private Enemy_Survilance _enemySurvilance;
     #endregion
     private void Start()
     {
@@ -21,19 +21,20 @@ public class PlayerStealth : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // calcula el radio de deteccion en base a la velocidad del jugador y chequea si hay enemigos en ese radio
         _detectionRadious = _rb.linearVelocity.magnitude * _stealthMultiplier;
         _colliders = Physics.OverlapSphere(transform.position, _detectionRadious , _detectionLayer);
         if (_colliders.Length > 0)
         {
-           foreach(Collider enemyEaring in _colliders)
+           foreach(Collider enemyEaring in _colliders) // por cada enemigo en el radio de deteccion le avisa que hay ruido
             {
-                _enemySurvilance = enemyEaring.gameObject.GetComponentInChildren<Survilance>();
+                _enemySurvilance = enemyEaring.gameObject.GetComponentInChildren<Enemy_Survilance>();
                 if (_enemySurvilance == false) continue;
                 _enemySurvilance.NoiseDetected(transform.position);
             }
         }
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmos() // dibuja el radio de deteccion en el editor
     {
         if (_rb == null) return;
         Gizmos.color = Color.yellow;

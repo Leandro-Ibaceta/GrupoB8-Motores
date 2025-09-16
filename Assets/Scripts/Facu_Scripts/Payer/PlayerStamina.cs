@@ -46,34 +46,39 @@ public class PlayerStamina : MonoBehaviour
 
     private void Update()
     {
-        if(ActualStamina < AvailableStamina)
+        // Recupera stamina con el tiempo
+        if (ActualStamina < AvailableStamina)
             ActualStamina = _staminaRecoveryFactor * Time.deltaTime;
     }
     public void DrainStamina(float Time)
     {
+        // Si esta en cooldown no puede gastar stamina
         if (_isCoolingDown) return;
 
-
+        // Gasta stamina y si se queda sin stamina deshabilita el movimiento por un tiempo
         ActualStamina = -_staminaCost * Time;
         if (_actualStamina <= 0)
         {
             _playerManager.Movement.enabled = false;
             //Animacion de cansansio
-            Invoke("RestoreMovement", _tiredCooldown);
+            
+            Invoke("RestoreMovement", _tiredCooldown); // restaura el movimiento despues de un tiempo
         }
-        AvailableStamina = - _maxStaminaDrainFactor * Time;
+        AvailableStamina = - _maxStaminaDrainFactor * Time; // gasta stamina disponible 
         if (_availableStamina <= _minStamina)
         {
-            _playerManager.Movement.HaveStamina = false;
+            _playerManager.Movement.HaveStamina = false; // avisa al player movement que no tiene stamina disponible
         }
 
     }
 
+    // Restaura la stamina disponible a un valor especifico (bebidas energeticas)
     public void RestoreAvailableStamina(float stamina)
     {
         ActualStamina = stamina;
     }
 
+    // Restaura el movimiento del jugador y saca el cooldown
     private void RestoreMovement()
     {
         _playerManager.Movement.enabled = true;
