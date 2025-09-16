@@ -12,7 +12,7 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] private bool _isMouseXAxisInverted = false;
     [Header("Axis direction attributes")]
     [SerializeField] private bool _isYAxisInverted = false;
-    [SerializeField] private bool _isXAxisInverted= false;
+    [SerializeField] private bool _isXAxisInverted = false;
     [SerializeField] private bool _isLateralAxisInverted = false;
 
     #endregion
@@ -60,8 +60,8 @@ public class PlayerInputs : MonoBehaviour
 
     void Update()
     {
-        _mouseYAxis = _isMouseYAxisInverted ? -1 : 1 * -Input.GetAxis("Mouse Y") * _mouseVerticallSensitivity;
-        _mouseXAxis = _isMouseXAxisInverted ? -1 : 1 * Input.GetAxis("Mouse X") * _mouseHorizontalSensitivity;
+        _mouseYAxis = (_isMouseYAxisInverted ? -1 : 1) * (-Input.GetAxis("Mouse Y") * _mouseVerticallSensitivity);
+        _mouseXAxis = (_isMouseXAxisInverted ? -1 : 1) * (Input.GetAxis("Mouse X") * _mouseHorizontalSensitivity);
 
         _isRMBClicked = Input.GetMouseButtonDown(1);
         _isRMBHeldPressed = Input.GetMouseButton(1);
@@ -71,8 +71,8 @@ public class PlayerInputs : MonoBehaviour
         _isLMBHeldPressed = Input.GetMouseButton(0);
         _isLMBReleased = Input.GetMouseButtonUp(0);
 
-        _yAxis = _isYAxisInverted? -1:1 * Input.GetAxis("Vertical"); 
-        _xAxis = _isXAxisInverted? -1:1 * Input.GetAxis("Horizontal");
+        _yAxis = (_isYAxisInverted? -1:1) * Input.GetAxis("Vertical"); 
+        _xAxis = (_isXAxisInverted? -1:1) * Input.GetAxis("Horizontal");
         _lateralAxis = _isLateralAxisInverted? -1:1 * Input.GetAxis("Horizontal_displacement");
 
         _speedAxis = Input.GetAxis("Mouse ScrollWheel");

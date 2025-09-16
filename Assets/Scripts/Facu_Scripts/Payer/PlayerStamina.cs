@@ -9,7 +9,7 @@ public class PlayerStamina : MonoBehaviour
     [SerializeField] private float _minStamina = 3f;
     [SerializeField] private float _maxStaminaDrainFactor = 0.5f;
     [SerializeField] private float _staminaRecoveryFactor = 0.5f;
-    [SerializeField] private float _tiredCooldown = 0.5f;
+    [SerializeField] private float _tiredCooldown = 1f;
     #endregion
     #region INTERNAL_ATTRIBUTES
     private PlayerManager _playerManager;
@@ -18,6 +18,13 @@ public class PlayerStamina : MonoBehaviour
     private float _actualStamina;
     #endregion
     #region PROPERTIES
+
+    public float MaxStamina { get { return _maxStamina; } }
+    public float MinStamina { get { return _minStamina; } }
+    public float ActualStaminaValue { get { return _actualStamina; } }
+    public float availableStaminaValue { get { return _availableStamina; } }
+
+
     protected float AvailableStamina // esta propieda permite modificar los valores y clampearlos al maximo y al minimo
     {
         get { return _availableStamina; }
@@ -26,7 +33,7 @@ public class PlayerStamina : MonoBehaviour
     protected float ActualStamina // esta propieda permite modificar los valores y clampearlos al maximo y al minimo
     {
         get { return _actualStamina; }
-        set { _actualStamina = Mathf.Clamp(_actualStamina + value, _minStamina, _availableStamina); }
+        set { _actualStamina = Mathf.Clamp(_actualStamina + value, 0, _availableStamina); }
     }
     #endregion
     private void Start()
@@ -36,19 +43,25 @@ public class PlayerStamina : MonoBehaviour
         _isCoolingDown = false;
         _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
     }
-    public void DrainStamina()
+
+    private void Update()
+    {
+        if(ActualStamina < AvailableStamina)
+            ActualStamina = _staminaRecoveryFactor * Time.deltaTime;
+    }
+    public void DrainStamina(float Time)
     {
         if (_isCoolingDown) return;
 
 
-        ActualStamina = -_staminaCost;
-        if (_actualStamina <= _minStamina)
+        ActualStamina = -_staminaCost * Time;
+        if (_actualStamina <= 0)
         {
             _playerManager.Movement.enabled = false;
             //Animacion de cansansio
             Invoke("RestoreMovement", _tiredCooldown);
         }
-        ActualStamina = -(_availableStamina - _actualStamina) * _maxStaminaDrainFactor;
+        AvailableStamina = - _maxStaminaDrainFactor * Time;
         if (_availableStamina <= _minStamina)
         {
             _playerManager.Movement.HaveStamina = false;
@@ -66,6 +79,6 @@ public class PlayerStamina : MonoBehaviour
         _playerManager.Movement.enabled = true;
         _isCoolingDown = false;
     }
-
+    
 
 }

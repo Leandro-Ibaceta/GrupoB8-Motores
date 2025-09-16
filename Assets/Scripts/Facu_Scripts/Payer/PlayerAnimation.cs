@@ -19,7 +19,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void ChangePlayerSpeed(float newValue)
     {
-        _animator.SetFloat(_speedParameterName,Mathf.Clamp(newValue,-1,1));
+        _animator.SetFloat(_speedParameterName,Mathf.Clamp(newValue,0,2));
     }
 
 

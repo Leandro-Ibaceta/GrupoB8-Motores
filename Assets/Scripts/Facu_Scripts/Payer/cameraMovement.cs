@@ -56,15 +56,17 @@ public class cameraMovement : MonoBehaviour
         #region VERTICAL_CLAMPING
         if (_playerManager.Inputs.IsRMBHeldPressed)
         {
-            _verticalReference = Vector3.Angle(_shoulderCameraPosition.forward, transform.forward);
-            if (_verticalReference <= _maxAngleOfCamera / 2)
+            _verticalReference = Vector3.Angle(_shoulderCameraPosition.up, transform.forward);
+          
+            if (_verticalReference <= 90 - _maxAngleOfCamera )
             {
                 _yAxis = Mathf.Clamp(_yAxis, 0, 1);
             }
-            else if (_verticalReference >= - _maxAngleOfCamera / 2)
+            else if (_verticalReference >= 90 + _maxAngleOfCamera)
             {
                 _yAxis = Mathf.Clamp(_yAxis, -1, 0);
             }
+            
         }
         else
         {
@@ -89,7 +91,7 @@ public class cameraMovement : MonoBehaviour
         }
         if (_playerManager.Inputs.IsRMBHeldPressed)
         {
-            _target.Rotate(_target.transform.up,_xAxis);
+            _target.Rotate(_target.up ,  _xAxis);
             _camera.fieldOfView = _aimingFOV;
             transform.RotateAround(transform.position, transform.right, _yAxis);
         }
@@ -102,6 +104,8 @@ public class cameraMovement : MonoBehaviour
         else
         {
             transform.RotateAround(_target.position, _target.up, _xAxis);
+            transform.RotateAround(_target.position, transform.right, _yAxis);
+          
             transform.LookAt(_target.position);
         }
         #endregion
