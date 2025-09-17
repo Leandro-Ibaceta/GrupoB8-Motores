@@ -10,8 +10,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private PlayerHealth _health;
     [SerializeField] private cameraMovement _cameraMovement;
     [SerializeField] private PlayerAnimation _Animation;
+    [SerializeField] private GameObject _GFX;
+    [SerializeField] private GameObject _gunGFX;
 
 
+    public GameObject GunGFX => _gunGFX;
+    public GameObject GFX => _GFX;
     public PlayerMovement Movement => _movement;
     public PlayerStealth Stelth => _stelth;
     public PlayerAttack Attack => _attack;

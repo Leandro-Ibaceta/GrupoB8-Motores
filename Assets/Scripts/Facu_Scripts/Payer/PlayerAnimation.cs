@@ -54,7 +54,25 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void SetAttackTrigger()
     {
+        ChangeStanceValue(0);
+        ChangeAnimationSpeed(1);
         _animator.SetTrigger(_attackTriggerName);
+    }
+
+    public void BeginShooting()
+    {
+        _playerManager.Attack.Attack();
+    }
+    public void EndedShooting()
+    {
+        _playerManager.Movement.enabled = true;
+        _playerManager.Attack.IsAttacking = false;
+        _playerManager.GFX.transform.Rotate(0,90,0);
+        _playerManager.GunGFX.SetActive(false);
+    }
+    public void SetGranadeTrigger()
+    {
+        _animator.SetTrigger(_granadeTriggerName);
     }
 
     public void BeginStandingUp()

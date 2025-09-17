@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation attributes")]
     [SerializeField][Range(0, 360)] private float _maxAngularSpeed = 180;
     [SerializeField][Range(0, 360)] private float _minAngularSpeed = 25;
- 
+
 
     [Header("Colliders references")]
     [SerializeField] private CapsuleCollider _walkCollider;
@@ -172,8 +172,11 @@ public class PlayerMovement : MonoBehaviour
         // Aplica la fuerza calculada al rigidbody del jugador
         _rb.AddForce(_forceVector * Time.fixedDeltaTime );
         // Rota al jugador si no esta apuntando con la camara en vista de hombro
-        if ( !OnShoulderCam)
+        if (!OnShoulderCam)
+        {
             _rb.MoveRotation(_rotation);
+        }
+
         _relativeSpeed = (_rb.linearVelocity.magnitude) / _maxVelocity;
         // Actualiza la velocidad de la animacion segun la velocidad relativa
         // Si se esta esprintando, aumenta la variable del blend tree para que la animacion sea mas rapida

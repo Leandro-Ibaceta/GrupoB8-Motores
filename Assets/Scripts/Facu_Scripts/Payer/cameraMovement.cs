@@ -2,10 +2,14 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.Rendering;
 
 public class cameraMovement : MonoBehaviour
 {
     #region INSPECTOR_ATTRIBUTES
+
+
+    public float xForce, yForce = 1000;
 
     [Header("Axis direction attributes")]
     [SerializeField] private float _maxAngleOfCamera = 45;
@@ -26,6 +30,9 @@ public class cameraMovement : MonoBehaviour
     private float _xAxis = 0;
     private float _yAxis = 0;
     private Camera _camera;
+    private Vector3 _offset;
+    private Vector3 _collisionPosition;
+    private Rigidbody _rb;
     #endregion
 
     void Start()
@@ -37,19 +44,20 @@ public class cameraMovement : MonoBehaviour
         Cursor.lockState = _lockMode;
         Input.ResetInputAxes();
         _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
 
         #region MOUSE_AXIS_PARAMETRIZATION
-        _yAxis = _playerManager.Inputs.MouseYAxis;
-        _xAxis = _playerManager.Inputs.MouseXAxis;
+        _yAxis = -_playerManager.Inputs.MouseYAxis;
+        _xAxis = -_playerManager.Inputs.MouseXAxis;
         #endregion
 
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
 
 
@@ -83,7 +91,7 @@ public class cameraMovement : MonoBehaviour
             
         #endregion
         #region SHOULDER_CAM_TO_NORMAL_CAM_TRANSITION && ROTATION_APPLICATION
-
+      
         if (_playerManager.Inputs.IsRMBClicked)
         {
             transform.localPosition = _shoulderCameraPosition.localPosition;
@@ -91,6 +99,7 @@ public class cameraMovement : MonoBehaviour
         }
         if (_playerManager.Inputs.IsRMBHeldPressed)
         {
+            transform.localPosition = _shoulderCameraPosition.localPosition;
             _target.Rotate(_target.up ,  _xAxis);
             _camera.fieldOfView = _aimingFOV;
             transform.RotateAround(transform.position, transform.right, _yAxis);
@@ -103,10 +112,14 @@ public class cameraMovement : MonoBehaviour
         }
         else
         {
-            transform.RotateAround(_target.position, _target.up, _xAxis);
-            transform.RotateAround(_target.position, transform.right, _yAxis);
-          
-            transform.LookAt(_target.position);
+            //transform.RotateAround(_target.position, _target.up, _xAxis);
+            //transform.RotateAround(_target.position, transform.right, _yAxis);
+           
+            _rb.MoveRotation(Quaternion.Slerp(transform.localRotation, 
+                Quaternion.LookRotation(_target.position-transform.position),0.1f));
+            _rb.AddRelativeForce(Vector3.up * _yAxis * yForce * Time.fixedDeltaTime);
+            _rb.AddRelativeForce(Vector3.right  * _xAxis * xForce * Time.fixedDeltaTime);
+            //transform.LookAt(_target.position);
         }
         #endregion
 

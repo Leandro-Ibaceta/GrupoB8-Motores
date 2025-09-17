@@ -12,14 +12,14 @@ public class ToolBeltUI : MonoBehaviour
     private void Start()
     {
         Inventory.instance.onItemChangedCallback += UpdateUI; // Suscribirse al evento de cambio de inventario
-      
+        UpdateUI();
     }
 
 
     public void UpdateUI() // Actualizar la UI del cinturón de herramientas
     {
         int i =0;
-        
+       
         foreach (var item in Inventory.instance.Items) // Iterar sobre los items en el inventario
         {
             // Actualizar el sprite del slot con el sprite del item

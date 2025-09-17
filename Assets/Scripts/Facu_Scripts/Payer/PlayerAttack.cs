@@ -21,6 +21,10 @@ public class PlayerAttack : MonoBehaviour
     private PlayerManager _playerManager;
     private Inventory _inventory;
     private GameObject _granade;
+    private bool _isAttacking = false;  
+
+    public bool IsAttacking { get { return _isAttacking; } set { _isAttacking = value; } }
+
     private void Start()
     {
         if (_camera == null)
@@ -36,11 +40,17 @@ public class PlayerAttack : MonoBehaviour
         if (_playerManager.Inputs.IsLMBClicked && _playerManager.Movement.OnShoulderCam ) 
         {
             // verifica que haya dardos en el inventario
-            if (_inventory.Items.ContainsKey(_dart) && _inventory.Items[_dart]>0)
-                Attack();
+            if (_inventory.Items.ContainsKey(_dart) && _inventory.Items[_dart]>0 && !_isAttacking)
+            {
+                _playerManager.Animation.SetAttackTrigger();
+                _playerManager.GFX.transform.Rotate(0,-90,0);
+                _playerManager.GunGFX.SetActive(true);
+                _isAttacking = true;
+                _playerManager.Movement.enabled = false;
+            }
         }
         // Lanza una granada de humo si se hace click derecho y hay granadas en el inventario
-        if (_playerManager.Inputs.IsThrowClicked && _inventory.Items.ContainsKey(_smokeGranade) )
+        if (_playerManager.Inputs.IsThrowClicked && _inventory.Items.ContainsKey(_smokeGranade) && !_isAttacking )
         {
             // verifica que haya granadas en el inventario
             if (_inventory.Items[_smokeGranade] > 0)
@@ -57,15 +67,15 @@ public class PlayerAttack : MonoBehaviour
         Inventory.instance.RemoveItem(_smokeGranade);
     }
     // Dispara un rayo desde la posicion de disparo hacia el punto que mira la camara
-    private void Attack()
+    public void Attack()
     {
         _cameraPoint = GetCameraPoint();
         if (Physics.Raycast(_shootPosition.position, (_cameraPoint - _shootPosition.position), out _hit, _shootDistance, _enemyLayer))
         {
             // Si el rayo colisiona con un enemigo, deshabilita al enemigo y remueve un dardo del inventario
             _hit.collider.GetComponentInParent<Enemy>().Dead();
-            Inventory.instance.RemoveItem(_dart);
         }
+            Inventory.instance.RemoveItem(_dart);
     }
 
 

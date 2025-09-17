@@ -54,6 +54,8 @@ MonoBehaviour:
   _health: {fileID: 0}
   _cameraMovement: {fileID: 0}
   _Animation: {fileID: 0}
+  _GFX: {fileID: 0}
+  _gunGFX: {fileID: 0}
 --- !u!114 &6259215968121919360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,3 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959eea82d834367428fa4eedcc555377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultItems:
+  - {fileID: 11400000, guid: 7008c1dc0db97cc429f02d669fe60b55, type: 2}
+  _quantity: 0a000000
