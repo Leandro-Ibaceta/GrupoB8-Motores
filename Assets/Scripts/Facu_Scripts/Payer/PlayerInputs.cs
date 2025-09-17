@@ -32,17 +32,26 @@ public class PlayerInputs : MonoBehaviour
     private bool _lowStancePressed;
     private bool _highStancePresed;
     private bool _isSprintHeldPressed;
+    private bool _isThrowClicked;
     #endregion
     #region PROPERTIES
-    public bool IsLowStancePressed { get { return _lowStancePressed; } }
-    public bool IsHighStancePressed { get { return _highStancePresed; } }
-    public bool IsSprintHeldPressed { get { return _isSprintHeldPressed; } }
-    public float MouseYAxis { get { return _mouseYAxis; } }
-    public float MouseXAxis { get { return _mouseXAxis; } }
-    public float YAxis { get { return _yAxis; } }
-    public float XAxis { get { return _xAxis; } }
-    public float LateralAxis { get { return _lateralAxis; } }
-    public float SpeedAxis { get { return _speedAxis; } }
+
+    public bool IsThrowClicked => _isThrowClicked;
+    public bool IsLowStancePressed => _lowStancePressed;
+    public bool IsHighStancePressed => _highStancePresed;
+    public bool IsSprintHeldPressed => _isSprintHeldPressed;
+    public float MouseYAxis => _mouseYAxis; 
+    public float MouseXAxis => _mouseXAxis;
+    public float YAxis => _yAxis;
+    public float XAxis => _xAxis;
+    public float LateralAxis => _lateralAxis;
+    public float SpeedAxis => _speedAxis;
+    public bool IsRMBClicked => _isRMBClicked;
+    public bool IsRMBReleased => _isRMBReleased;
+    public bool IsLMBClicked => _isLMBClicked;
+    public bool IsLMBReleased => _isLMBReleased;
+    public bool IsRMBHeldPressed => _isRMBHeldPressed;
+    public bool IsLMBHeldPressed => _isLMBHeldPressed;
     public bool IsLateralAxisInverted { get { return _isLateralAxisInverted; } set { _isLateralAxisInverted = value; } }
     public bool IsXAxisInverted { get { return _isXAxisInverted; } set { _isXAxisInverted = value; } }
     public bool IsYAxisInverted { get { return _isYAxisInverted; } set { _isYAxisInverted = value; } }
@@ -50,36 +59,35 @@ public class PlayerInputs : MonoBehaviour
     public bool IsMouseYAxisInverted { get { return _isMouseYAxisInverted; } set { _isMouseYAxisInverted = value; } }
     public float MouseVerticalSensitivity { get { return _mouseVerticallSensitivity; } set { _mouseVerticallSensitivity = value; } }
     public float MouseHorizontalSensitivity { get { return _mouseHorizontalSensitivity; } set { _mouseHorizontalSensitivity = value; } }
-    public bool IsRMBClicked { get { return _isRMBClicked; } }
-    public bool IsRMBReleased { get { return _isRMBReleased; } }
-    public bool IsLMBClicked { get { return _isLMBClicked; } }
-    public bool IsLMBReleased { get { return _isLMBReleased; } }
-    public bool IsRMBHeldPressed { get { return _isRMBHeldPressed; } }
-    public bool IsLMBHeldPressed { get { return _isLMBHeldPressed; } }
     #endregion
 
+    // Actualiza los inputs cada frame
     void Update()
     {
+        // Obtiene los ejes del mouse , aplicando la sensibilidad y la inversion segun las configuraciones
         _mouseYAxis = (_isMouseYAxisInverted ? -1 : 1) * (-Input.GetAxis("Mouse Y") * _mouseVerticallSensitivity);
         _mouseXAxis = (_isMouseXAxisInverted ? -1 : 1) * (Input.GetAxis("Mouse X") * _mouseHorizontalSensitivity);
 
+        // Obtiene los estados de los botones del mouse
         _isRMBClicked = Input.GetMouseButtonDown(1);
         _isRMBHeldPressed = Input.GetMouseButton(1);
         _isRMBReleased = Input.GetMouseButtonUp(1);
-
         _isLMBClicked = Input.GetMouseButtonDown(0);
         _isLMBHeldPressed = Input.GetMouseButton(0);
         _isLMBReleased = Input.GetMouseButtonUp(0);
 
+        // Obtiene los ejes de movimiento , aplicando la inversion segun las configuraciones
         _yAxis = (_isYAxisInverted? -1:1) * Input.GetAxis("Vertical"); 
         _xAxis = (_isXAxisInverted? -1:1) * Input.GetAxis("Horizontal");
         _lateralAxis = _isLateralAxisInverted? -1:1 * Input.GetAxis("Horizontal_displacement");
 
+        // Obtiene el eje de velocidad (scroll del mouse)
         _speedAxis = Input.GetAxis("Mouse ScrollWheel");
 
+        // Obtiene los estados de los botones de postura , sprint y lanzar
         _lowStancePressed = Input.GetButtonDown("Crouch");
         _highStancePresed = Input.GetButtonDown("Jump");
-
         _isSprintHeldPressed = Input.GetButton("Sprint");
+        _isThrowClicked = Input.GetButtonDown("Throw");
     }
 }

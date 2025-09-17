@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     #region INSPECTOR ATTRIBUTES
 
     [Header("Displacement attributes")]
-    [SerializeField] private float _staminaCost = 5;
     [SerializeField] public float _maxNormalVelocity = 10;
     [SerializeField] public float _maxCrouchVelocity = 4;
     [SerializeField] public float _maxCrawlVelocity = 2;
@@ -18,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(0, 100)] private float _scrollWheelAceleration = 10;
     [SerializeField] private float _maxForceApplied = 500;
     [SerializeField] private float _minForceApplied = 150;
+
     [Header("Rotation attributes")]
     [SerializeField][Range(0, 360)] private float _maxAngularSpeed = 180;
     [SerializeField][Range(0, 360)] private float _minAngularSpeed = 25;
@@ -78,9 +78,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-       
-        
+
+
         #region LATERAL_ROTATION
+        // Si no se esta apuntando con la camara en vista de hombro, rota al jugador segun el input del mouse
         if (!_playerManager.Inputs.IsRMBHeldPressed)
         {
             _onShoulderCam = false;
@@ -95,13 +96,13 @@ public class PlayerMovement : MonoBehaviour
         #region LATERAL_DISPLACEMENT
         
             _moveH = transform.right * _playerManager.Inputs.LateralAxis;
-
         #endregion
         #region FORCE_VECTOR_CALCULATION
         _moveV = transform.forward * _playerManager.Inputs.YAxis;
         _forceVector = (_moveH + _moveV).normalized * _forceVectorMagnitude;
         #endregion
         #region STANCE_MODIFICATION_&_COLLISION
+        // Si se esta esprintando y hay estamina, aumenta la velocidad y fuerza aplicada
         if (_playerManager.Inputs.IsSprintHeldPressed && _haveStamina)
         { 
             _forceVectorMagnitude = _maxForceApplied;
@@ -111,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
             _isRuning = true;
             _playerManager.Stamina.DrainStamina(Time.deltaTime);
         }
+        // Si no se esta esprintando, ajusta la velocidad y fuerza aplicada segun el input del scroll del mouse
         else
         {
             _isRuning = false;
@@ -120,7 +122,8 @@ public class PlayerMovement : MonoBehaviour
             _forceVectorMagnitude = Mathf.Lerp(_minForceApplied, _maxForceApplied, _speedInterpolation);
             _angularSpeed = Mathf.Lerp(_maxAngularSpeed, _minAngularSpeed, _speedInterpolation);
 
-            if (_playerManager.Inputs.IsLowStancePressed)
+            // Cambia la postura del jugador si se presionan las teclas correspondientes
+            if (_playerManager.Inputs.IsLowStancePressed) 
             {
                 _stanceStep++;
             }
@@ -131,10 +134,11 @@ public class PlayerMovement : MonoBehaviour
             _stanceStep = math.clamp(_stanceStep,0, 3);
 
         }
+        // Ajusta el collider y la velocidad maxima segun la postura actual
         switch (_stanceStep)
         {
             case 0:
-                _playerManager.PlayerAnimation.ChangeAnimationSpeed(1);
+                _playerManager.Animation.ChangeAnimationSpeed(1);
 
                 _walkCollider.enabled = true;
                 _crawlCollider.enabled = false;
@@ -155,31 +159,35 @@ public class PlayerMovement : MonoBehaviour
 
         }
         _rb.maxLinearVelocity = _maxVelocity;
-        _playerManager.PlayerAnimation.ChangeStanceValue(_stanceStep);
+        // Actualiza la animacion segun la postura actual
+        _playerManager.Animation.ChangeStanceValue(_stanceStep);
 
         #endregion
      
 
     }
-
+    // Fisicas
     void FixedUpdate()
     {
-
+        // Aplica la fuerza calculada al rigidbody del jugador
         _rb.AddForce(_forceVector * Time.fixedDeltaTime );
-        if( !OnShoulderCam)
+        // Rota al jugador si no esta apuntando con la camara en vista de hombro
+        if ( !OnShoulderCam)
             _rb.MoveRotation(_rotation);
         _relativeSpeed = (_rb.linearVelocity.magnitude) / _maxVelocity;
-        if (_isRuning)
-            _playerManager.PlayerAnimation.ChangePlayerSpeed(Mathf.Lerp(0,2, _relativeSpeed*2));
+        // Actualiza la velocidad de la animacion segun la velocidad relativa
+        // Si se esta esprintando, aumenta la variable del blend tree para que la animacion sea mas rapida
+        if (_isRuning) 
+            _playerManager.Animation.ChangePlayerSpeed(Mathf.Lerp(0,2, _relativeSpeed*2));
         else if(_stanceStep == 0)
-            _playerManager.PlayerAnimation.ChangePlayerSpeed( _relativeSpeed);
-        else
-            _playerManager.PlayerAnimation.ChangeAnimationSpeed( _relativeSpeed);
+            _playerManager.Animation.ChangePlayerSpeed( _relativeSpeed);
+        else // Si se esta agachado o gateando, reduce la velocidad de la animacion
+            _playerManager.Animation.ChangeAnimationSpeed(_relativeSpeed); 
     }
-
-    private void OnDisable()
+    
+    private void OnDisable()// Cuando el script se desactiva, se actualiza la animacion para que el jugador deje de moverse (idle)
     {
-        _playerManager.PlayerAnimation.ChangePlayerSpeed(0);
+        _playerManager.Animation.ChangePlayerSpeed(0);
 
     }
 }

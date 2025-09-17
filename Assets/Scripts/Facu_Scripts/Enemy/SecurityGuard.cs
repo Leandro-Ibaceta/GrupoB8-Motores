@@ -7,20 +7,27 @@ public class SecurityGuard : Enemy
     [SerializeField] private Animator _animator;
     [Header("Animation attributes")]
     [SerializeField] private float _animationChangeFactor;
+    [SerializeField] private GameObject _visionCone;
+
+
 
     private Enemy_agent _agent;
     private Rigidbody _rb;
     private float _animationBlend;
-   
+    private Enemy_Ragdoll _ragdoll;
+    
     private void Start()
     {
         _agent = GetComponent<Enemy_agent>();
         _rb = GetComponent<Rigidbody>();
-        
+        _ragdoll = GetComponentInChildren<Enemy_Ragdoll>();
+
+
     }
 
     private void Update()
     {
+        // modifica la velocidad del animator en funcion del estado del enemigo
         if (_agent.ActualState == Enemy_agent.ENEMY_STATE.ATTACKING)
         {
             _animator.speed = 1;
@@ -35,16 +42,16 @@ public class SecurityGuard : Enemy
             _animationBlend = 0;
         }
     }
-    public override void Attack()
+    public override void Attack() // dispara la animacion de ataque
     {
         _animator.SetTrigger("attack");
     }
 
-    public override void Disable()
+    public override void Dead() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
     {
         _agent.Agent.enabled = false;
         _agent.enabled = false;
-        _rb.isKinematic = false;
-        _rb.excludeLayers = LayerMask.NameToLayer("Everything");
+        _ragdoll.ActivateRagdoll();
+        _visionCone.SetActive(false);
     }
 }

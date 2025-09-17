@@ -1,20 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;   
 
-public class HUD : MonoBehaviour
+public class StaminaHUD : MonoBehaviour
 {
+    [Header("Stamina HUD References")]
     [SerializeField] private Slider _staminaValue;
     [SerializeField] private Slider _staminaDepleted;
 
     private PlayerManager _playerManager;
 
+    
     private void Start()
     {
         _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        // setea los valores maximos de las barras de stamina
         _staminaValue.maxValue = _playerManager.Stamina.MaxStamina;
         _staminaDepleted.maxValue = _playerManager.Stamina.MaxStamina - _playerManager.Stamina.MinStamina;
     }
 
+    
     private void Update()
     {
         _staminaValue.value = _playerManager.Stamina.ActualStaminaValue;
