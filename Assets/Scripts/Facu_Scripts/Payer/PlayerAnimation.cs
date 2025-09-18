@@ -14,7 +14,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Start()
     {
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
     }
 
     public void ChangePlayerSpeed(float newValue)

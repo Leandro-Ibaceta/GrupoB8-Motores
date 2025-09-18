@@ -47,7 +47,7 @@ public class SecurityGuard : Enemy
         _animator.SetTrigger("attack");
     }
 
-    public override void Dead() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
+    public override void Neutralize() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
     {
         _agent.Agent.enabled = false;
         _agent.enabled = false;

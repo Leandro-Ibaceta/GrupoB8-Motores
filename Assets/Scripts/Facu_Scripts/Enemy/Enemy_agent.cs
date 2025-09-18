@@ -37,15 +37,13 @@ public class Enemy_agent : MonoBehaviour
     #region INTERNAL_ATTRIBUTES
     private ENEMY_STATE _actualState = ENEMY_STATE.PATROLLING;
     private Vector3 _startWaypoint;
-    private Vector3 _nextDestination;
     private int _nextWaypoint=1;
     private NavMeshAgent _agent;
     private Vector3 _lastPlayerPosition;
     private bool _onInvestigation;
-    private bool _invertPatrol;
     private float _elapsedTime=0;
     private Transform _player;
-    private SecurityGuard _securityGuard;
+    private Enemy _enemy;
     #endregion
     #region PROPERTIES
     public bool OnInvestigation
@@ -83,8 +81,8 @@ public class Enemy_agent : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.acceleration = _aceleration;
         _agent.stoppingDistance = _stoppingDistance;
-        _player = GameObject.Find("Player").transform;
-        _securityGuard = GetComponent<SecurityGuard>();
+        _player = PlayerManager.instance.PlayerObject.transform;
+        _enemy = GetComponent<Enemy>();
     }
     void Update()
     {
@@ -120,7 +118,7 @@ public class Enemy_agent : MonoBehaviour
         if (_agent.remainingDistance < _minimalAttackDistance)
         {
             _agent.isStopped = true;
-            _securityGuard.Attack();
+            _enemy.Attack();
         }
         
     }

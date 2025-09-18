@@ -4,7 +4,7 @@ public class Pickup : MonoBehaviour
 {
     [Header("Item to pickup reference")]
     [SerializeField] private Item item;
-    [Header("Player Layer")]
+    [Header("PlayerObject Layer")]
     [SerializeField] private LayerMask _playerLayer;
 
     private Inventory _inventory;

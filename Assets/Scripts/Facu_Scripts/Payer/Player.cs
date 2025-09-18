@@ -1,21 +1,39 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [Header("Stats attributes")]
     [SerializeField] private float _health = 100;
     [SerializeField] private float _maxHealth = 50f;
-    
+    [SerializeField] private GameObject _GFX;
+    [SerializeField] private GameObject _gunGFX;
+
     private PlayerManager _playerManager;
 
     public float HealthValue => _health;
     public float MaxHealth => _maxHealth;
 
+    public GameObject GFX => _GFX;
+    public GameObject GunGFX => _gunGFX;
+
+    private void Awake()
+    {
+        if(PlayerManager.instance != null)
+        {
+            if(PlayerManager.instance.PlayerObject==null)
+            {
+                PlayerManager.instance.SetPlayer(gameObject);
+               
+            }
+        }
+    }
+
     private void Start()
     {
+        transform.position = GameManager.instance.PlayerSpawnPoint.position;
         _health = _maxHealth;
         _playerManager =
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
     }
 
 
@@ -39,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
         _health -= damage;
         if(_health <= 0)
         {
-            if(_playerManager.Lifes>=0)
+            if(_playerManager.Lifes>0)
             {
                 _playerManager.Lifes--;
                 _playerManager.Health.Heal(_maxHealth);

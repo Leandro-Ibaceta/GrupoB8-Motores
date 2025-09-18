@@ -2,39 +2,47 @@ using UnityEngine;
 
 public class DoorMechanism : MonoBehaviour
 {
-    [SerializeField] private Transform _doorTransform;
-    [SerializeField] private Vector3 _doorTop;
+    [Header("Door Attributes")]
+    [SerializeField] private float _doorheigt;
+    [Header("Key Attributes")]
     [SerializeField] private Item _keyItem;
-    [SerializeField] private float _openSpeed = 5f;
-    [SerializeField] private float _openedTime = 5f;
-    [SerializeField] private float _closeSpeed = 5f;
     [SerializeField] private int _securityLevel;
+    [Header("Door Movement Attributes")]
+    [SerializeField] private float _openedTime = 5f;
+    [SerializeField] private float _openSpeed = 5f;
+    [SerializeField] private float _closeSpeed = 5f;
+    [Header("Player Layer")]
     [SerializeField] private LayerMask _playerLayer;
-    [SerializeField] private LayerMask _enemyLayer;
+
 
 
     private Inventory _playerInventory;
     private bool _isOpen = false;
     private Vector3 _doorHeightOffset;
+    private Vector3 _startPosition;
+   
     private void Start()
     {
-        _doorHeightOffset = new Vector3(0, _doorTransform.localScale.y/2, 0);
+        // calcula la posicion a la que se movera la puerta al abrirse
+        _doorHeightOffset = transform.position + transform.up * _doorheigt;
         _playerInventory = Inventory.instance;
-        _doorTop = _doorTransform.position + _doorHeightOffset;
+        _startPosition = transform.position;
+
     }
 
 
     private void Update()
     {
+        // mueve la puerta hacia arriba si esta abierta, o hacia abajo si esta cerrada
         if (_isOpen)
         {
-            _doorTransform.position = Vector3.MoveTowards(_doorTransform.position, _doorTop, _openSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _doorHeightOffset, _openSpeed * Time.deltaTime);
         }
         else
         {
-            _doorTransform.position = Vector3.MoveTowards(_doorTransform.position, transform.position + _doorHeightOffset, _closeSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _startPosition, _closeSpeed * Time.deltaTime);
         }
-        if (Vector3.Distance(_doorTransform.position, _doorTop) < 0.1f)
+        if (Vector3.Distance(transform.position, _doorHeightOffset) < 0.1f)
         {
             Invoke("CloseDoor", _openedTime);
         }
@@ -51,6 +59,9 @@ public class DoorMechanism : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+
+        // Si el objeto que entra en el trigger es el jugador,
+        // verifica si tiene la llave correcta para abrir la puerta
         if (((1 << collision.gameObject.layer) & _playerLayer) != 0)
         {
             if (_playerInventory.Items.ContainsKey(_keyItem))

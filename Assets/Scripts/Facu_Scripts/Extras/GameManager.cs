@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
 
     private Vector3 _playerStartPosition;
     private PlayerManager _playerManager;
+
+
+    public Transform PlayerSpawnPoint => _playerSpawnPoint;
+
     private void Awake()
     {
         if (instance == null)
@@ -21,12 +25,12 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     private void Start()
     {
         _playerStartPosition = _playerSpawnPoint.position;
-        _playerManager = GetComponent<PlayerManager>();
-        _playerManager.Player.transform.position = _playerSpawnPoint.position;
+        _playerManager =  PlayerManager.instance;
+        _playerManager.PlayerObject.transform.position = _playerSpawnPoint.position;
     }
 
     public void QuitGame()
@@ -39,12 +43,13 @@ public class GameManager : MonoBehaviour
     {
         Inventory.instance = new Inventory();
         _playerSpawnPoint.position = _playerStartPosition;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        _playerManager.Lifes = _playerManager.MaxLifes;
+        LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
     public void LoadCheckpoint()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
 

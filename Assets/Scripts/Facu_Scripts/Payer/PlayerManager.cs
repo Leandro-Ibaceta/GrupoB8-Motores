@@ -2,35 +2,33 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _player;
-    [SerializeField] private int _lifes = 3;
-   [SerializeField] private GameObject _GFX;
-   [SerializeField] private GameObject _gunGFX;
+    public static PlayerManager instance;
 
+    #region INSPECTOR_ATTRIBUTES
+    [SerializeField] private GameObject _playerObject;
+    [SerializeField] private int _maxLifes = 3;
+    [SerializeField] private GameObject _GFX;
+    [SerializeField] private GameObject _gunGFX;
+    [SerializeField] private LayerMask _playerLayer;
+    #endregion
+
+    #region INTERNAL_ATTRIBUTES
     private PlayerMovement _movement;
     private PlayerStealth _stelth;
-    private PlayerHealth _health;
+    private Player _player;
     private PlayerAttack _attack;
     private PlayerInputs _inputs;
     private PlayerStamina _stamina;
     private cameraMovement _cameraMovement;
     private PlayerAnimation _Animation;
+    private int _currentLifes;
+    #endregion
 
-
-    private void Awake()
-    {
-        _movement = _player.GetComponent<PlayerMovement>();
-        _stelth = _player.GetComponent<PlayerStealth>();
-        _Animation = _player.GetComponentInChildren<PlayerAnimation>();
-        _attack = _player.GetComponent<PlayerAttack>();
-        _inputs = GetComponent<PlayerInputs>();
-        _stamina = _player.GetComponent<PlayerStamina>();
-        _health = _player.GetComponent<PlayerHealth>();
-        _cameraMovement = Camera.main.GetComponent<cameraMovement>();
-    }
-
-    public GameObject Player => _player;
-    public int Lifes { get { return _lifes; } set { _lifes = value; } }
+    #region PROPERTIES
+    public LayerMask PlayerLayer => _playerLayer;
+    public GameObject PlayerObject => _playerObject;
+    public int MaxLifes => _maxLifes;
+    public int Lifes { get { return _currentLifes; } set { _currentLifes = value; } }
     public GameObject GunGFX => _gunGFX;
     public GameObject GFX => _GFX;
     public PlayerMovement Movement => _movement;
@@ -38,10 +36,39 @@ public class PlayerManager : MonoBehaviour
     public PlayerAttack Attack => _attack;
     public PlayerInputs Inputs => _inputs;
     public PlayerStamina Stamina => _stamina;
-    public PlayerHealth Health => _health;
+    public Player Health => _player;
     public cameraMovement CameraMovement => _cameraMovement;
     public PlayerAnimation Animation => _Animation;
+    #endregion
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            SetPlayer(PlayerObject);
+            DontDestroyOnLoad(gameObject);
+            _currentLifes = _maxLifes;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        _inputs = GetComponent<PlayerInputs>();
 
+    }
+    public void SetPlayer(GameObject playerObject)
+    {
+        _playerObject = playerObject;
+        _movement = _playerObject.GetComponent<PlayerMovement>();
+        _stelth = _playerObject.GetComponent<PlayerStealth>();
+        _Animation = _playerObject.GetComponentInChildren<PlayerAnimation>();
+        _cameraMovement = Camera.main.GetComponent<cameraMovement>();
+        _attack = _playerObject.GetComponent<PlayerAttack>();
+        _stamina = _playerObject.GetComponent<PlayerStamina>();
+        _player = _playerObject.GetComponent<Player>();
+        _GFX = _player.GFX;
+        _gunGFX = _player.GunGFX;
 
+    }
 
 }

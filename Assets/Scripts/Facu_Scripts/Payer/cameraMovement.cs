@@ -44,7 +44,7 @@ public class cameraMovement : MonoBehaviour
         _normalFOV = _camera.fieldOfView;
         Cursor.lockState = _lockMode;
         Input.ResetInputAxes();
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
         _rb = GetComponent<Rigidbody>();
     }
 

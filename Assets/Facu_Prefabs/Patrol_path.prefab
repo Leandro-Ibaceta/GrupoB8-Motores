@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa350a476345dc43a7cfd2a0b86c66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waypoints: []
+  _waypoints:
+  - {x: -1.8360248, y: 1.4725821, z: -12.271911}
+  - {x: -1.8174548, y: 1.472582, z: -11.265518}
   _waypointMarkerRadious: 0.2
   _crosshairRadious: 0.2
   offset: {x: 0, y: 0, z: 0}

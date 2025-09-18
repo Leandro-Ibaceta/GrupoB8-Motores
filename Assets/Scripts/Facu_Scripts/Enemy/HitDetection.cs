@@ -4,13 +4,15 @@ public class HitDetection : MonoBehaviour
 {
     [Header("Hit Detection attributes")]
     [SerializeField] private float _damage = 25f;
-    [SerializeField] private LayerMask _playerLayer;
 
+
+    private LayerMask _playerLayer;
     private PlayerManager _playerManager;
 
     private void Start()
     {
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
+        _playerLayer = _playerManager.PlayerLayer;
     }
 
     private void OnTriggerEnter(Collider other) 

@@ -10,7 +10,6 @@ public class Enemy_Survilance : MonoBehaviour
     [SerializeField] private float _maxDetectionTime = 5f;
     [SerializeField][Range(0.01f,2f)]private float _cooldawnFactor = 2f;
     [Header("Physics attributes")]
-    [SerializeField] private LayerMask _playerLayer;
     [SerializeField] private LayerMask _obstaclesLayers;
     [Header("Search cone Attributes")]
     [SerializeField] private float _coneRotationSpeed;
@@ -22,6 +21,7 @@ public class Enemy_Survilance : MonoBehaviour
     #endregion
     #region INTERNAL_ATTRIBUTES
  
+    private LayerMask _playerLayer;
     private Enemy_agent _enemyAgent;
     private float _detectedTime;
     private bool _playerDetected;
@@ -53,6 +53,7 @@ public class Enemy_Survilance : MonoBehaviour
     private void Start()
     {
         _enemyAgent = GetComponentInParent<Enemy_agent>();
+        _playerLayer = PlayerManager.instance.PlayerLayer;
     }
      private void LateUpdate()
     {

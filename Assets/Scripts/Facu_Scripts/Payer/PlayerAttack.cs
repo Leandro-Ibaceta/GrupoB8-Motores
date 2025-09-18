@@ -31,7 +31,7 @@ public class PlayerAttack : MonoBehaviour
         {
             _camera = Camera.main;
         }
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
         _inventory = Inventory.instance;    
     }
     private void Update()
@@ -73,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
         if (Physics.Raycast(_shootPosition.position, (_cameraPoint - _shootPosition.position), out _hit, _shootDistance, _enemyLayer))
         {
             // Si el rayo colisiona con un enemigo, deshabilita al enemigo y remueve un dardo del inventario
-            _hit.collider.GetComponentInParent<Enemy>().Dead();
+            _hit.collider.GetComponentInParent<Enemy>().Neutralize();
         }
             Inventory.instance.RemoveItem(_dart);
     }
