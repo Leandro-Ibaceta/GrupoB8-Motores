@@ -2,18 +2,35 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement _movement;
-    [SerializeField] private PlayerStealth _stelth;
-    [SerializeField] private PlayerAttack _attack;
-    [SerializeField] private PlayerInputs _inputs;
-    [SerializeField] private PlayerStamina _stamina;
-    [SerializeField] private PlayerHealth _health;
-    [SerializeField] private cameraMovement _cameraMovement;
-    [SerializeField] private PlayerAnimation _Animation;
-    [SerializeField] private GameObject _GFX;
-    [SerializeField] private GameObject _gunGFX;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private int _lifes = 3;
+   [SerializeField] private GameObject _GFX;
+   [SerializeField] private GameObject _gunGFX;
+
+    private PlayerMovement _movement;
+    private PlayerStealth _stelth;
+    private PlayerHealth _health;
+    private PlayerAttack _attack;
+    private PlayerInputs _inputs;
+    private PlayerStamina _stamina;
+    private cameraMovement _cameraMovement;
+    private PlayerAnimation _Animation;
 
 
+    private void Awake()
+    {
+        _movement = _player.GetComponent<PlayerMovement>();
+        _stelth = _player.GetComponent<PlayerStealth>();
+        _Animation = _player.GetComponentInChildren<PlayerAnimation>();
+        _attack = _player.GetComponent<PlayerAttack>();
+        _inputs = GetComponent<PlayerInputs>();
+        _stamina = _player.GetComponent<PlayerStamina>();
+        _health = _player.GetComponent<PlayerHealth>();
+        _cameraMovement = Camera.main.GetComponent<cameraMovement>();
+    }
+
+    public GameObject Player => _player;
+    public int Lifes { get { return _lifes; } set { _lifes = value; } }
     public GameObject GunGFX => _gunGFX;
     public GameObject GFX => _GFX;
     public PlayerMovement Movement => _movement;

@@ -9,11 +9,12 @@ public class cameraMovement : MonoBehaviour
     #region INSPECTOR_ATTRIBUTES
 
 
-    public float xForce, yForce = 1000;
 
     [Header("Axis direction attributes")]
     [SerializeField] private float _maxAngleOfCamera = 45;
     [Header("Camera attributes")]
+    [SerializeField] private float _collisionDetectionRadious = 0.5f;
+    [SerializeField] private LayerMask _collisionLayers;
     [SerializeField][Range(25, 60)] private float _aimingFOV;
     [Header("Cursor attributes")]
     [SerializeField] private CursorLockMode _lockMode = CursorLockMode.Locked;
@@ -51,13 +52,13 @@ public class cameraMovement : MonoBehaviour
     {
 
         #region MOUSE_AXIS_PARAMETRIZATION
-        _yAxis = -_playerManager.Inputs.MouseYAxis;
-        _xAxis = -_playerManager.Inputs.MouseXAxis;
+        _yAxis = _playerManager.Inputs.MouseYAxis;
+        _xAxis = _playerManager.Inputs.MouseXAxis;
         #endregion
 
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
 
 
@@ -112,16 +113,19 @@ public class cameraMovement : MonoBehaviour
         }
         else
         {
-            //transform.RotateAround(_target.position, _target.up, _xAxis);
-            //transform.RotateAround(_target.position, transform.right, _yAxis);
-           
-            _rb.MoveRotation(Quaternion.Slerp(transform.localRotation, 
-                Quaternion.LookRotation(_target.position-transform.position),0.1f));
-            _rb.AddRelativeForce(Vector3.up * _yAxis * yForce * Time.fixedDeltaTime);
-            _rb.AddRelativeForce(Vector3.right  * _xAxis * xForce * Time.fixedDeltaTime);
-            //transform.LookAt(_target.position);
+            transform.RotateAround(_target.position, _target.up, _xAxis);
+            transform.RotateAround(_target.position, transform.right, _yAxis);
+            transform.LookAt(_target.position);
         }
         #endregion
+        if (Physics.SphereCast(transform.position, _collisionDetectionRadious, transform.forward, out RaycastHit hitInfo, _collisionDetectionRadious,_collisionLayers))
+        {
+            _collisionPosition = hitInfo.point + (hitInfo.normal * _collisionDetectionRadious);
+            transform.position = Vector3.Lerp(_collisionPosition,transform.position, 20 * Time.fixedDeltaTime);
+        }
+
+       
 
     }
+
 }

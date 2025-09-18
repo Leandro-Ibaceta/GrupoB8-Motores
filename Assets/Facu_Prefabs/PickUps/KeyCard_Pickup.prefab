@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6224883523350513098}
   - component: {fileID: 4859816367983955623}
   - component: {fileID: 5280918297212720376}
+  - component: {fileID: 2719040154931467457}
   m_Layer: 0
   m_Name: KeyCard_Pickup
   m_TagString: Untagged
@@ -122,6 +123,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: bcfffdce369e12e40980ae5254246dbc, type: 2}
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &2719040154931467457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4909720826070463815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c047ac6f4ba9b714c8697499a75aa4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _playerLayer:
     serializedVersion: 2
     m_Bits: 128

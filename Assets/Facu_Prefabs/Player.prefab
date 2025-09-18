@@ -750,6 +750,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxAngleOfCamera: 45
+  _collisionDetectionRadious: 0.1
+  _collisionLayers:
+    serializedVersion: 2
+    m_Bits: 264
   _aimingFOV: 45.9
   _lockMode: 1
   _target: {fileID: 4278790100938859978}
