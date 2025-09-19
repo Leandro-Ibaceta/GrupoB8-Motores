@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1305732703201307349}
   m_Layer: 0
   m_Name: EnergyDrink_pickUp
-  m_TagString: Untagged
+  m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,6 +124,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 50030df4db95e144e8c69d6555b6bcb4, type: 2}
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 128

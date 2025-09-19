@@ -14,7 +14,6 @@ public class Checkpoint : MonoBehaviour
         if ((1 << other.gameObject.layer & _playerLayer) != 0)
         {
             GameManager.instance.SetCheckpoint(transform.position);
-            Debug.Log("Checkpoint reached at position: " + transform.position);
         }
 
     }

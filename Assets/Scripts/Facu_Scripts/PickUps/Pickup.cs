@@ -4,13 +4,18 @@ public class Pickup : MonoBehaviour
 {
     [Header("Item to pickup reference")]
     [SerializeField] private Item item;
-    [Header("PlayerObject Layer")]
-    [SerializeField] private LayerMask _playerLayer;
+
 
     private Inventory _inventory;
+    private LayerMask _playerLayer;
+    private CheckPointManager _pickUpsManager;
+
+
     private void Start()
     {
-       _inventory = Inventory.instance;
+        _pickUpsManager = CheckPointManager.instance;
+        _inventory = Inventory.instance;
+       _playerLayer = PlayerManager.instance.PlayerLayer;
     }
 
 
@@ -22,7 +27,7 @@ public class Pickup : MonoBehaviour
         {
             if(_inventory.AddItem(item))
             {
-                Destroy(gameObject);
+                _pickUpsManager.DeletePickUp(gameObject.name);
             }
         }
     }

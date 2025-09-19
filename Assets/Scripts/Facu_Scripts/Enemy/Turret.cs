@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Torret : Enemy
+public class Turret : Enemy
 {
     [SerializeField] Transform _shootPosition;
     [SerializeField] float _shootDistance = 10f;
@@ -80,13 +80,10 @@ public class Torret : Enemy
     }
     public override void Neutralize()
     {
-        //?
+        base.Neutralize();
+
     }
 
-    private void OnDrawGizmos()
-    {
-        
-    }
 
 
 }

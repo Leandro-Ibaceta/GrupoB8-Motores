@@ -27,8 +27,9 @@ public class Inventory : MonoBehaviour
             Destroy(gameObject);
         }
     }
+   
 
-    private void Start()
+    public void addDefaultItems()
     {
         if (_defaultItems.Length < 1) return;
         if (_defaultItems.Length != _quantity.Length)
@@ -37,19 +38,22 @@ public class Inventory : MonoBehaviour
             return;
         }
         // Agrega los items por defecto al inventario
-   
-        for (int i = 0; i < _defaultItems.Length;i++)
+
+        for (int i = 0; i < _defaultItems.Length; i++)
         {
-           for(int j = 0; j<_quantity[i];j++)
+            for (int j = 0; j < _quantity[i]; j++)
             {
                 if (_defaultItems[i] == null) break;
                 if (_quantity[i] > _defaultItems[i].MaxStack)
                     _quantity[i] = _defaultItems[i].MaxStack;
                 AddItem(_defaultItems[i]);
-             
+
             }
         }
     }
+
+
+
     // Agrega un item al inventario, si ya existe y no esta en su maximo de usos, aumenta el uso en 1.
     public bool AddItem(Item item)
     {

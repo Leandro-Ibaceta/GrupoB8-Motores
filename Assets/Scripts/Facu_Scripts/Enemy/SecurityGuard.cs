@@ -49,6 +49,7 @@ public class SecurityGuard : Enemy
 
     public override void Neutralize() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
     {
+         base.Neutralize();
         _agent.Agent.enabled = false;
         _agent.enabled = false;
         _ragdoll.ActivateRagdoll();

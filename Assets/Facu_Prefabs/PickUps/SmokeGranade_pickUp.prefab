@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4266462907903655110}
   m_Layer: 0
   m_Name: SmokeGranade_pickUp
-  m_TagString: Untagged
+  m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,6 +124,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: d88020181364fdb4fb8f40cf9e5c18d9, type: 2}
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 128

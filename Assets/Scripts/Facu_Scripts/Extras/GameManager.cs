@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
 
     private Vector3 _playerStartPosition;
     private PlayerManager _playerManager;
-
+    private EnemyManager _enemyManager;
 
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
-
+    public EnemyManager EnemyManager => _enemyManager;
     private void Awake()
     {
         if (instance == null)
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     {
         _playerStartPosition = _playerSpawnPoint.position;
         _playerManager =  PlayerManager.instance;
+        _enemyManager = GetComponent<EnemyManager>();
         _playerManager.PlayerObject.transform.position = _playerSpawnPoint.position;
     }
 
@@ -41,7 +42,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Inventory.instance = new Inventory();
+        Inventory.instance = null;
+        CheckPointManager.instance.ResetAll();
         _playerSpawnPoint.position = _playerStartPosition;
         _playerManager.Lifes = _playerManager.MaxLifes;
         LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
@@ -60,7 +62,8 @@ public class GameManager : MonoBehaviour
 
     public void SetCheckpoint(Vector3 checkpointPosition)
     {
-        _playerSpawnPoint.position = checkpointPosition;   
+        _playerSpawnPoint.position = checkpointPosition;
+         
     }
 
 }

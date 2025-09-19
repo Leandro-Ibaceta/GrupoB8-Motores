@@ -7,20 +7,19 @@ public class ToolBeltUI : MonoBehaviour
     [SerializeField] private Image[] _itemSlots;
 
 
- 
+    
 
     private void Start()
     {
         Inventory.instance.onItemChangedCallback += UpdateUI; // Suscribirse al evento de cambio de inventario
-
         UpdateUI();
+        Inventory.instance.addDefaultItems(); // Agregar items por defecto al inventario    
     }
-
 
     public void UpdateUI() // Actualizar la UI del cinturón de herramientas
     {
+        
         int i =1;
-       
         _itemSlots = GetComponentsInChildren<Image>(); // Obtener los componentes Image de los slots de items
         foreach (var item in Inventory.instance.Items) // Iterar sobre los items en el inventario
         {
