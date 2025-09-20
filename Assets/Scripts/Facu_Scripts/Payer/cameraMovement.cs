@@ -16,14 +16,14 @@ public class cameraMovement : MonoBehaviour
     [SerializeField] private float _collisionDetectionRadious = 0.5f;
     [SerializeField] private LayerMask _collisionLayers;
     [SerializeField][Range(25, 60)] private float _aimingFOV;
-    [Header("Cursor attributes")]
-    [SerializeField] private CursorLockMode _lockMode = CursorLockMode.Locked;
+
     [Header("References")]
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _shoulderCameraPosition;
     #endregion
     #region INTERNAL_ATTRIBUTES
-    private PlayerManager _playerManager;
+   
+    private PlayerInputs _inputs;
     private Vector3 _startPosition;
     private float _normalFOV;
     private float _verticalReference;
@@ -42,9 +42,8 @@ public class cameraMovement : MonoBehaviour
         _startRotation = transform.localRotation;
         _camera = Camera.main;
         _normalFOV = _camera.fieldOfView;
-        Cursor.lockState = _lockMode;
         Input.ResetInputAxes();
-        _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -52,8 +51,8 @@ public class cameraMovement : MonoBehaviour
     {
 
         #region MOUSE_AXIS_PARAMETRIZATION
-        _yAxis = _playerManager.Inputs.MouseYAxis;
-        _xAxis = _playerManager.Inputs.MouseXAxis;
+        _yAxis = _inputs.MouseYAxis * Time.deltaTime;
+        _xAxis = _inputs.MouseXAxis * Time.deltaTime;
         #endregion
 
     }
@@ -63,7 +62,7 @@ public class cameraMovement : MonoBehaviour
 
 
         #region VERTICAL_CLAMPING
-        if (_playerManager.Inputs.IsRMBHeldPressed)
+        if (_inputs.IsRMBHeldPressed)
         {
             _verticalReference = Vector3.Angle(_shoulderCameraPosition.up, transform.forward);
           
@@ -93,19 +92,19 @@ public class cameraMovement : MonoBehaviour
         #endregion
         #region SHOULDER_CAM_TO_NORMAL_CAM_TRANSITION && ROTATION_APPLICATION
       
-        if (_playerManager.Inputs.IsRMBClicked)
+        if (_inputs.IsRMBClicked)
         {
             transform.localPosition = _shoulderCameraPosition.localPosition;
             transform.localRotation = _shoulderCameraPosition.localRotation;
         }
-        if (_playerManager.Inputs.IsRMBHeldPressed)
+        if (_inputs.IsRMBHeldPressed)
         {
             transform.localPosition = _shoulderCameraPosition.localPosition;
             _target.Rotate(_target.up ,  _xAxis);
             _camera.fieldOfView = _aimingFOV;
             transform.RotateAround(transform.position, transform.right, _yAxis);
         }
-        else if (_playerManager.Inputs.IsRMBReleased)
+        else if (_inputs.IsRMBReleased)
         {
             transform.localPosition = _startPosition;
             transform.localRotation = _startRotation;

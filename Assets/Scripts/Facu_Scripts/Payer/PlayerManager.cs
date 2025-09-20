@@ -17,7 +17,6 @@ public class PlayerManager : MonoBehaviour
     private PlayerStealth _stelth;
     private Player _player;
     private PlayerAttack _attack;
-    private PlayerInputs _inputs;
     private PlayerStamina _stamina;
     private cameraMovement _cameraMovement;
     private PlayerAnimation _Animation;
@@ -39,7 +38,6 @@ public class PlayerManager : MonoBehaviour
     public PlayerMovement Movement => _movement;
     public PlayerStealth Stelth => _stelth;
     public PlayerAttack Attack => _attack;
-    public PlayerInputs Inputs => _inputs;
     public PlayerStamina Stamina => _stamina;
     public Player Health => _player;
     public cameraMovement CameraMovement => _cameraMovement;
@@ -58,7 +56,7 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        _inputs = GetComponent<PlayerInputs>();
+      
 
     }
     public void SetPlayer(GameObject playerObject)

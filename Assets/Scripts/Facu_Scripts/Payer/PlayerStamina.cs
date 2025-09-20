@@ -16,6 +16,7 @@ public class PlayerStamina : MonoBehaviour
     #endregion
     #region INTERNAL_ATTRIBUTES
     private PlayerManager _playerManager;
+    private PlayerInputs _inputs;
     private bool _isCoolingDown;
     private float _availableStamina;
     private float _actualStamina;
@@ -47,6 +48,8 @@ public class PlayerStamina : MonoBehaviour
         _actualStamina = _availableStamina;
         _isCoolingDown = false;
         _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
+
     }
 
     private void Update()
@@ -55,13 +58,14 @@ public class PlayerStamina : MonoBehaviour
         if (ActualStamina < AvailableStamina)
             ActualStamina = _staminaRecoveryFactor * Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Q)) // Usa una bebida energetica
+        if (_inputs.IsConsumeClicked) // Usa una bebida energetica
         {
             if (_inventory.Items.ContainsKey(_energyDrinkItem) && _inventory.Items[_energyDrinkItem] > 0)
             { 
                 RestoreAvailableStamina(_maxStamina);
                 _actualStamina = _availableStamina;
                 _inventory.RemoveItem(_energyDrinkItem);
+                _playerManager.Movement.HaveStamina = true;
             }
 
         }
@@ -86,10 +90,7 @@ public class PlayerStamina : MonoBehaviour
         {
             _playerManager.Movement.HaveStamina = false; // avisa al player movement que no tiene stamina disponible
         }
-        else
-        {
-            _playerManager.Movement.HaveStamina = true;
-        }
+      
 
     }
 

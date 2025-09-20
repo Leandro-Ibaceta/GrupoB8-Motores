@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2271011519275446161}
   - component: {fileID: 6450724914371312252}
-  - component: {fileID: 7305799976766805572}
   - component: {fileID: 788043203223774437}
   m_Layer: 0
   m_Name: PlayerManager
@@ -53,25 +52,6 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 128
---- !u!114 &7305799976766805572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8051912581226292353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7409de9774c7fe54bbc33e42c90d9271, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mouseVerticallSensitivity: 10
-  _mouseHorizontalSensitivity: 10
-  _isMouseYAxisInverted: 0
-  _isMouseXAxisInverted: 0
-  _isYAxisInverted: 0
-  _isXAxisInverted: 0
-  _isLateralAxisInverted: 0
 --- !u!114 &788043203223774437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,4 +66,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultItems:
   - {fileID: 11400000, guid: 7008c1dc0db97cc429f02d669fe60b55, type: 2}
-  _quantity: 05000000
+  - {fileID: 11400000, guid: d88020181364fdb4fb8f40cf9e5c18d9, type: 2}
+  _quantity: 0500000002000000

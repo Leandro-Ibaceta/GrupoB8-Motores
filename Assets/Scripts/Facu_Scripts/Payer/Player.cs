@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
     {
         transform.position = GameManager.instance.PlayerSpawnPoint.position;
         _health = _maxHealth;
-        _playerManager =
         _playerManager = PlayerManager.instance;
     }
 

@@ -3,26 +3,29 @@ using UnityEngine;
 public class TorretConsole : MonoBehaviour
 {
     private EnemyManager _enemyManager;
-    private LayerMask _playerLayer;
+    private PlayerInputs _inputs;
+    private PlayerManager _playerManager;
 
 
     private void Start()
     {
-        _playerLayer = PlayerManager.instance.PlayerLayer;
+        _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         _enemyManager = GameManager.instance.EnemyManager;
-        if ((1 << other.gameObject.layer & _playerLayer) != 0)
+        if (_playerManager.CompareLayer(other.gameObject.layer))
         {
-            foreach (Enemy enemy in _enemyManager.Enemies)
-            {
-                if (enemy is Turret turret)
+            if(_inputs.IsInteractClicked)
+                foreach (Enemy enemy in _enemyManager.Enemies)
                 {
-                    turret.Neutralize();
+                    if (enemy is Turret turret)
+                    {
+                        turret.Neutralize();
+                    }
                 }
-            }
         }
     }
 

@@ -8,9 +8,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _playerSpawnPoint;
     [SerializeField] private EnemyManager _enemyManager;
 
+
     private Vector3 _playerStartPosition;
     private PlayerManager _playerManager;
+    private PlayerInputs _inputs;
 
+    public PlayerInputs Inputs { get { return _inputs; } }
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
     public EnemyManager EnemyManager { get { return _enemyManager; } set { _enemyManager = value; } }
     private void Awake()
@@ -18,6 +21,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            _inputs = GetComponent<PlayerInputs>();
             DontDestroyOnLoad(gameObject);
         }
         else

@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _onShoulderCam = false;
     private Rigidbody _rb;
     private PlayerManager _playerManager;
+    private PlayerInputs _inputs;
     #endregion
     #region PROPERTIES
     public float Speed
@@ -74,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
         _maxVelocity = _maxNormalVelocity;
         _rb.maxLinearVelocity = _maxVelocity;
         _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
         _playerManager.ActiveCollider = _walkCollider;
     }
 
@@ -83,10 +85,10 @@ public class PlayerMovement : MonoBehaviour
 
         #region LATERAL_ROTATION
         // Si no se esta apuntando con la camara en vista de hombro, rota al jugador segun el input del mouse
-        if (!_playerManager.Inputs.IsRMBHeldPressed)
+        if (!_inputs.IsRMBHeldPressed)
         {
             _onShoulderCam = false;
-            _rotationAngle = _playerManager.Inputs.XAxis * _angularSpeed * Time.deltaTime;
+            _rotationAngle = _inputs.XAxis * _angularSpeed * Time.deltaTime;
             _rotation = transform.rotation * Quaternion.Euler(0, _rotationAngle, 0);
         }
         else
@@ -96,15 +98,15 @@ public class PlayerMovement : MonoBehaviour
         #endregion
         #region LATERAL_DISPLACEMENT
         
-            _moveH = transform.right * _playerManager.Inputs.LateralAxis;
+            _moveH = transform.right * _inputs.LateralAxis;
         #endregion
         #region FORCE_VECTOR_CALCULATION
-        _moveV = transform.forward * _playerManager.Inputs.YAxis;
+        _moveV = transform.forward * _inputs.YAxis;
         _forceVector = (_moveH + _moveV).normalized * _forceVectorMagnitude;
         #endregion
         #region STANCE_MODIFICATION_&_COLLISION
         // Si se esta esprintando y hay estamina, aumenta la velocidad y fuerza aplicada
-        if (_playerManager.Inputs.IsSprintHeldPressed && _haveStamina)
+        if (_inputs.IsSprintHeldPressed && _haveStamina)
         { 
             _forceVectorMagnitude = _maxForceApplied;
             _angularSpeed = _minAngularSpeed;
@@ -118,17 +120,17 @@ public class PlayerMovement : MonoBehaviour
         {
             _isRuning = false;
             _maxVelocity = _maxNormalVelocity;
-            _speedInterpolation += (_playerManager.Inputs.SpeedAxis * _scrollWheelAceleration * Time.deltaTime);
+            _speedInterpolation += (_inputs.SpeedAxis * _scrollWheelAceleration * Time.deltaTime);
             _speedInterpolation = Mathf.Clamp(_speedInterpolation, 0f, 1f);
             _forceVectorMagnitude = Mathf.Lerp(_minForceApplied, _maxForceApplied, _speedInterpolation);
             _angularSpeed = Mathf.Lerp(_maxAngularSpeed, _minAngularSpeed, _speedInterpolation);
 
             // Cambia la postura del jugador si se presionan las teclas correspondientes
-            if (_playerManager.Inputs.IsLowStancePressed)
+            if (_inputs.IsLowStancePressed)
             {
                 _stanceStep++;
             }
-            if (_playerManager.Inputs.IsHighStancePressed)
+            if (_inputs.IsHighStancePressed)
             {
                 _stanceStep--;
             }

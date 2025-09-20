@@ -22,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 _cameraPoint;
     private RaycastHit _hit;
     private PlayerManager _playerManager;
+    private PlayerInputs _inputs;
     private Inventory _inventory;
     private GameObject _granade;
     private bool _isAttacking = false;  
@@ -35,12 +36,13 @@ public class PlayerAttack : MonoBehaviour
             _camera = Camera.main;
         }
         _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
         _inventory = Inventory.instance;    
     }
     private void Update()
     {
         // Dispara un dardo si se hace click izquierdo y la camara esta en vista de hombro
-        if (_playerManager.Inputs.IsLMBClicked && _playerManager.Movement.OnShoulderCam ) 
+        if (_inputs.IsLMBClicked && _playerManager.Movement.OnShoulderCam ) 
         {
             // verifica que haya dardos en el inventario
             if (_inventory.Items.ContainsKey(_dart) && _inventory.Items[_dart]>0 && !_isAttacking)
@@ -55,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
             }
         }
         // Lanza una granada de humo si se hace click derecho y hay granadas en el inventario
-        if (_playerManager.Inputs.IsThrowClicked && _inventory.Items.ContainsKey(_smokeGranade) && !_isAttacking )
+        if (_inputs.IsThrowClicked && _inventory.Items.ContainsKey(_smokeGranade) && !_isAttacking )
         {
             // verifica que haya granadas en el inventario
             if (_inventory.Items[_smokeGranade] > 0)
@@ -91,7 +93,7 @@ public class PlayerAttack : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit))
         {
-            Debug.DrawLine(_shootPosition.position, hit.point);
+           
             return hit.point;
         }
         else

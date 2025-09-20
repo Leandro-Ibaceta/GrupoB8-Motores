@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _smokeParticles: {fileID: 5475065321665661694}
-  _explodeDelay: 1.5
+  _explodeDelay: 1
   _disipationDelay: 10
   _obstacle: {fileID: 3674035989785964311}
 --- !u!198 &5475065321665661694

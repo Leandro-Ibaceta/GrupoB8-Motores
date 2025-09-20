@@ -12,6 +12,7 @@ public class PassThrough : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 25f;
 
     private PlayerManager _playerManager;
+    private PlayerInputs _inputs;
     private bool _isPassing = false;
     private Transform _playerTransform;
     private Rigidbody _playerRigidbody;
@@ -22,6 +23,7 @@ public class PassThrough : MonoBehaviour
     private void Start()
     {
         _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
         _playerTransform = _playerManager.PlayerObject.transform;
         _playerRigidbody = _playerManager.Rigid_Body;
         _nextSide.position = new Vector3(_nextSide.position.x, _playerTransform.position.y, _nextSide.position.z);
@@ -61,7 +63,7 @@ public class PassThrough : MonoBehaviour
     {
         if(_playerManager.CompareLayer(other.gameObject.layer))
         {
-            if(_playerManager.Inputs.IsHabilityClicked)
+            if(_inputs.IsInteractClicked)
             {
                 if(Vector3.Dot(-transform.forward, (_playerTransform.position - transform.position)) < 0)
                 {

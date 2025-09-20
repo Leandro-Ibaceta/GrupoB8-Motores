@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8475771138381531472}
   - component: {fileID: 3001941270961361028}
+  - component: {fileID: 259312991266922640}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -77,3 +78,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSpawnPoint: {fileID: 262286720873893806}
+  _enemyManager: {fileID: 0}
+--- !u!114 &259312991266922640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361145585967025645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7409de9774c7fe54bbc33e42c90d9271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mouseVerticallSensitivity: 10
+  _mouseHorizontalSensitivity: 10
+  _isMouseYAxisInverted: 0
+  _isMouseXAxisInverted: 0
+  _isYAxisInverted: 0
+  _isXAxisInverted: 0
+  _isLateralAxisInverted: 0
