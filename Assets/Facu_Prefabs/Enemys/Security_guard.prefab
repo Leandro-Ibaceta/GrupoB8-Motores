@@ -92,7 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e033e40838c2e499d02d1724e766b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visionCone: {fileID: 9138425681796269121}
   _animator: {fileID: 39570817298837865}
   _animationChangeFactor: 0.9
 --- !u!1 &8637009403568122603
@@ -605,7 +604,7 @@ MonoBehaviour:
   _cooldawnFactor: 2
   _obstaclesLayers:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 776
   _coneRotationSpeed: 30
   _maxAngle: 90
   _minimalDetectionDistance: 2

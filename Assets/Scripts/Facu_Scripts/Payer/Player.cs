@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
             if(PlayerManager.instance.PlayerObject==null)
             {
                 PlayerManager.instance.SetPlayer(gameObject);
-               
             }
         }
     }

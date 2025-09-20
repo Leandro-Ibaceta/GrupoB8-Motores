@@ -144,7 +144,7 @@ public class Enemy_Survilance : MonoBehaviour
         foreach (Vector3 boundPosition in _playerColliderLimits)
         {
             Debug.DrawLine(_parent.transform.position, boundPosition, Color.black);
-            if (!Physics.Linecast(_parent.transform.position, boundPosition, _obstaclesLayers, QueryTriggerInteraction.Ignore))
+            if (!Physics.Linecast(_parent.transform.position, boundPosition, _obstaclesLayers))
             {
                 
                 return true;
@@ -169,16 +169,23 @@ public class Enemy_Survilance : MonoBehaviour
                 }
                 _enemyAgent.LastPlayerPosition = collision.transform.position;
             }
+            else 
+            {
+                _enemyAgent.LastPlayerPosition = collision.transform.position;
+
+            }
           
         }
     }
+    // en caso de que algo ande mal Descomentar esto :D
+    
     private void OnTriggerExit(Collider collision)
     {   // en caso de que salga del cono de vision, y no este obstaculizado, guarda la ultima posicion conocida del jugador.
         if ((1 << collision.gameObject.layer & _playerLayer) != 0)
         {
             if (checkPlayerOnSight(collision))
             {
-                _enemyAgent.LastPlayerPosition = collision.transform.position;
+                
             }
             _playerInSight = false; // marca que el jugador no esta siendo visto
         }
