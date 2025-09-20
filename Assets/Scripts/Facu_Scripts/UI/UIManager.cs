@@ -65,7 +65,7 @@ public class UIManager : MonoBehaviour
 
     public void ActiveMenu(GameObject activeMenu)
     {
-        Debug.Log(activeMenu.name);
+       
         if(activeMenu == null) _activeMenu = GameObject.Find(activeMenu.name);
         else _activeMenu = activeMenu;
 
