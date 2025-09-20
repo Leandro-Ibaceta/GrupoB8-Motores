@@ -63,11 +63,11 @@ public class CheckPointManager : MonoBehaviour
     public void DeleteEnemy(string enemy)
     {
         // Evita agregar duplicados
-        if (!_deletedPickUps.Contains(enemy))
+        if (!_deletedEnemies.Contains(enemy))
         {
             // Agrega el pickup a la lista de eliminados y desactívalo
-            _deletedPickUps.Add(enemy);
-            GameObject.Find(enemy).SetActive(false);
+            _deletedEnemies.Add(enemy);
+           
         }
     }
 

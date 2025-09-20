@@ -41,7 +41,7 @@ public class PlayerStamina : MonoBehaviour
         _availableStamina = _maxStamina;
         _actualStamina = _availableStamina;
         _isCoolingDown = false;
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
     }
 
     private void Update()

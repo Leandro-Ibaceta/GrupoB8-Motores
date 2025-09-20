@@ -6,13 +6,13 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private Transform _playerSpawnPoint;
+    [SerializeField] private EnemyManager _enemyManager;
 
     private Vector3 _playerStartPosition;
     private PlayerManager _playerManager;
-    private EnemyManager _enemyManager;
 
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
-    public EnemyManager EnemyManager => _enemyManager;
+    public EnemyManager EnemyManager { get { return _enemyManager; } set { _enemyManager = value; } }
     private void Awake()
     {
         if (instance == null)
@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     {
         _playerStartPosition = _playerSpawnPoint.position;
         _playerManager =  PlayerManager.instance;
-        _enemyManager = GetComponent<EnemyManager>();
         _playerManager.PlayerObject.transform.position = _playerSpawnPoint.position;
     }
 
@@ -42,8 +41,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Inventory.instance = null;
-        CheckPointManager.instance.ResetAll();
+        Destroy(Inventory.instance);
+        Destroy(CheckPointManager.instance);
         _playerSpawnPoint.position = _playerStartPosition;
         _playerManager.Lifes = _playerManager.MaxLifes;
         LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);

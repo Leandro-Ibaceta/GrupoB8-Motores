@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1755ae36854b9964fa972c431e29fa14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visionCone: {fileID: 5382189289964202564}
   _shootPosition: {fileID: 7729292595044457193}
   _shootDistance: 10
   _damage: 2
@@ -5482,7 +5483,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7031
+  m_VersionIndex: 7037
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

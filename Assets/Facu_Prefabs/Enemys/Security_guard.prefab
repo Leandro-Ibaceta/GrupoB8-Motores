@@ -92,9 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e033e40838c2e499d02d1724e766b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visionCone: {fileID: 9138425681796269121}
   _animator: {fileID: 39570817298837865}
   _animationChangeFactor: 0.9
-  _visionCone: {fileID: 9138425681796269121}
 --- !u!1 &8637009403568122603
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,9 +603,6 @@ MonoBehaviour:
   _maxSuspectionTime: 3
   _maxDetectionTime: 5
   _cooldawnFactor: 2
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
   _obstaclesLayers:
     serializedVersion: 2
     m_Bits: 264
@@ -2233,9 +2230,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 25
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &3181440870896401508 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}
@@ -2289,8 +2283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea891758a9790e4c95f93a436d00f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ragdollMinVelocityToFreeze: 0.1
   _rigReference: {fileID: 6922000619795097752}
+  _timeToFreeze: 3
 --- !u!1 &3324644260750370368 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8159304147981801611, guid: dcc80ca3b309ef34ca7508876e374e36, type: 3}

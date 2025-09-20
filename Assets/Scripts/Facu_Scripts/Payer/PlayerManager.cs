@@ -21,10 +21,15 @@ public class PlayerManager : MonoBehaviour
     private PlayerStamina _stamina;
     private cameraMovement _cameraMovement;
     private PlayerAnimation _Animation;
+    private Rigidbody _rigidBody;
+    private Collider _activeCollider;
+
     private int _currentLifes;
     #endregion
 
     #region PROPERTIES
+    public Collider ActiveCollider { get { return _activeCollider; } set { _activeCollider = value; } }
+    public Rigidbody Rigid_Body => _rigidBody;
     public LayerMask PlayerLayer => _playerLayer;
     public GameObject PlayerObject => _playerObject;
     public int MaxLifes => _maxLifes;
@@ -66,9 +71,15 @@ public class PlayerManager : MonoBehaviour
         _attack = _playerObject.GetComponent<PlayerAttack>();
         _stamina = _playerObject.GetComponent<PlayerStamina>();
         _player = _playerObject.GetComponent<Player>();
+        _rigidBody = _playerObject.GetComponent<Rigidbody>();
         _GFX = _player.GFX;
         _gunGFX = _player.GunGFX;
 
+    }
+
+    public bool CompareLayer(int layer)
+    {
+        return (1 << layer & _playerLayer) != 0;
     }
 
 }

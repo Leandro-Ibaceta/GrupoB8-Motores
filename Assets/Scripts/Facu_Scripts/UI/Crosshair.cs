@@ -10,7 +10,7 @@ public class Crosshair : MonoBehaviour
 
     private void Start()
     {
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
         _crosshair.enabled = false;
     }
 

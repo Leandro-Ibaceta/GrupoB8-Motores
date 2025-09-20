@@ -17,6 +17,9 @@ public class PlayerInputs : MonoBehaviour
 
     #endregion
     #region INTERNAL_ATTRIBUTES
+    private bool _isHabilityClicked;
+    private bool _isHabilityHeldPressd;
+    private bool _isHabilityRelead;
     private bool _isRMBClicked;
     private bool _isRMBHeldPressed;
     private bool _isRMBReleased;
@@ -36,6 +39,9 @@ public class PlayerInputs : MonoBehaviour
     #endregion
     #region PROPERTIES
 
+    public bool IsHabilityClicked => _isHabilityClicked;
+    public bool IsHabilityHeldPressed => _isHabilityHeldPressd;
+    public bool IsHabilityReleased => _isHabilityRelead;
     public bool IsThrowClicked => _isThrowClicked;
     public bool IsLowStancePressed => _lowStancePressed;
     public bool IsHighStancePressed => _highStancePresed;
@@ -89,5 +95,12 @@ public class PlayerInputs : MonoBehaviour
         _highStancePresed = Input.GetButtonDown("Jump");
         _isSprintHeldPressed = Input.GetButton("Sprint");
         _isThrowClicked = Input.GetButtonDown("Throw");
+
+        // Obtiene el estado del boton de habilidad
+        _isHabilityClicked = Input.GetButton("Interact");
+        _isHabilityHeldPressd = Input.GetButtonDown("Interact");
+        _isHabilityRelead = Input.GetButtonUp("Interact");
+
+
     }
 }

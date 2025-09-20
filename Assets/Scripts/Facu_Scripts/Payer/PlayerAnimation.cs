@@ -44,7 +44,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void ChangeAnimationSpeed(float newValue)
     {
-        _animator.speed = Mathf.Clamp01(newValue);
+        _animator.speed = newValue;
 
     }
 
@@ -55,7 +55,6 @@ public class PlayerAnimation : MonoBehaviour
     public void SetAttackTrigger()
     {
         ChangeStanceValue(0);
-        ChangeAnimationSpeed(1);
         _animator.SetTrigger(_attackTriggerName);
     }
 

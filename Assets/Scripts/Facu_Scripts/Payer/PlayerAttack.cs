@@ -11,8 +11,11 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject _SmokeGranadePrefab;
-    
-    [Header("Inventoty items")]
+
+    [Header("Animation Atributtes")]
+    [SerializeField] private float _attackAnimationSpeed = 2f;
+
+    [Header("Inventory items")]
     [SerializeField] private Item _dart;
     [SerializeField] private Item _smokeGranade;
 
@@ -42,11 +45,13 @@ public class PlayerAttack : MonoBehaviour
             // verifica que haya dardos en el inventario
             if (_inventory.Items.ContainsKey(_dart) && _inventory.Items[_dart]>0 && !_isAttacking)
             {
+                _playerManager.Movement.StanceStep = 0; 
                 _playerManager.Animation.SetAttackTrigger();
                 _playerManager.GFX.transform.Rotate(0,-90,0);
                 _playerManager.GunGFX.SetActive(true);
                 _isAttacking = true;
                 _playerManager.Movement.enabled = false;
+                _playerManager.Animation.ChangeAnimationSpeed(_attackAnimationSpeed);
             }
         }
         // Lanza una granada de humo si se hace click derecho y hay granadas en el inventario
@@ -63,6 +68,7 @@ public class PlayerAttack : MonoBehaviour
     private void ThrowGranade()
     {
         _granade=Instantiate(_SmokeGranadePrefab, _shootPosition.position, Quaternion.identity);
+        _granade.GetComponent<SmokeGranade>().Trhow();
         _granade.GetComponent<Rigidbody>().AddForce(_camera.transform.forward * _throwForce);
         Inventory.instance.RemoveItem(_smokeGranade);
     }

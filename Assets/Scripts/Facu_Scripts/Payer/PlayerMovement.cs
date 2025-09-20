@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-
+    public int StanceStep { get { return _stanceStep; } set { _stanceStep = value; } }
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -74,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         _maxVelocity = _maxNormalVelocity;
         _rb.maxLinearVelocity = _maxVelocity;
         _playerManager = PlayerManager.instance;
+        _playerManager.ActiveCollider = _walkCollider;
     }
 
     void Update()
@@ -123,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             _angularSpeed = Mathf.Lerp(_maxAngularSpeed, _minAngularSpeed, _speedInterpolation);
 
             // Cambia la postura del jugador si se presionan las teclas correspondientes
-            if (_playerManager.Inputs.IsLowStancePressed) 
+            if (_playerManager.Inputs.IsLowStancePressed)
             {
                 _stanceStep++;
             }
@@ -131,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 _stanceStep--;
             }
-            _stanceStep = math.clamp(_stanceStep,0, 3);
+            _stanceStep = math.clamp(_stanceStep, 0, 3);
 
         }
         // Ajusta el collider y la velocidad maxima segun la postura actual
@@ -143,18 +144,21 @@ public class PlayerMovement : MonoBehaviour
                 _walkCollider.enabled = true;
                 _crawlCollider.enabled = false;
                 _crouchCollider.enabled = false;
+                _playerManager.ActiveCollider= _walkCollider;
                 break;
             case 1:
                 _maxVelocity = _maxCrouchVelocity;
                 _crouchCollider.enabled = true;
                 _walkCollider.enabled = false;
                 _crawlCollider.enabled = false;
+                _playerManager.ActiveCollider = _crouchCollider;
                 break;
             case 2:
                 _maxVelocity = _maxCrawlVelocity;
                 _crawlCollider.enabled = true;
                 _crouchCollider.enabled = false;
                 _walkCollider.enabled = false;
+                _playerManager.ActiveCollider = _crawlCollider;
                 break;
 
         }
