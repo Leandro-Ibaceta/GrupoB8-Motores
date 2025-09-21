@@ -7,22 +7,15 @@ public class SecurityGuard : Enemy
     [SerializeField] private Animator _animator;
     [Header("Animation attributes")]
     [SerializeField] private float _animationChangeFactor;
-    [SerializeField] private GameObject _visionCone;
+    
 
-
-
-    private Enemy_agent _agent;
-    private Rigidbody _rb;
     private float _animationBlend;
     private Enemy_Ragdoll _ragdoll;
     
-    private void Start()
+    protected override void Start()
     {
-        _agent = GetComponent<Enemy_agent>();
-        _rb = GetComponent<Rigidbody>();
+        base.Start();
         _ragdoll = GetComponentInChildren<Enemy_Ragdoll>();
-
-
     }
 
     private void Update()
@@ -47,11 +40,10 @@ public class SecurityGuard : Enemy
         _animator.SetTrigger("attack");
     }
 
-    public override void Dead() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
+    public override void Neutralize() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
     {
-        _agent.Agent.enabled = false;
-        _agent.enabled = false;
+         base.Neutralize();
         _ragdoll.ActivateRagdoll();
-        _visionCone.SetActive(false);
     }
+
 }

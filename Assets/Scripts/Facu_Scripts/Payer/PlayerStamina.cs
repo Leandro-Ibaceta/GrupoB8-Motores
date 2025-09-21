@@ -10,12 +10,17 @@ public class PlayerStamina : MonoBehaviour
     [SerializeField] private float _maxStaminaDrainFactor = 0.5f;
     [SerializeField] private float _staminaRecoveryFactor = 0.5f;
     [SerializeField] private float _tiredCooldown = 1f;
+
+    [Header("Energy Drink item")]
+    [SerializeField] private Item _energyDrinkItem;
     #endregion
     #region INTERNAL_ATTRIBUTES
     private PlayerManager _playerManager;
+    private PlayerInputs _inputs;
     private bool _isCoolingDown;
     private float _availableStamina;
     private float _actualStamina;
+    private Inventory _inventory;
     #endregion
     #region PROPERTIES
 
@@ -38,10 +43,13 @@ public class PlayerStamina : MonoBehaviour
     #endregion
     private void Start()
     {
+        _inventory = Inventory.instance;
         _availableStamina = _maxStamina;
         _actualStamina = _availableStamina;
         _isCoolingDown = false;
-        _playerManager = GameObject.FindWithTag("GameManager").GetComponent<PlayerManager>();
+        _playerManager = PlayerManager.instance;
+        _inputs = GameManager.instance.Inputs;
+
     }
 
     private void Update()
@@ -49,6 +57,19 @@ public class PlayerStamina : MonoBehaviour
         // Recupera stamina con el tiempo
         if (ActualStamina < AvailableStamina)
             ActualStamina = _staminaRecoveryFactor * Time.deltaTime;
+
+        if (_inputs.IsConsumeClicked) // Usa una bebida energetica
+        {
+            if (_inventory.Items.ContainsKey(_energyDrinkItem) && _inventory.Items[_energyDrinkItem] > 0)
+            { 
+                RestoreAvailableStamina(_maxStamina);
+                _actualStamina = _availableStamina;
+                _inventory.RemoveItem(_energyDrinkItem);
+                _playerManager.Movement.HaveStamina = true;
+            }
+
+        }
+
     }
     public void DrainStamina(float Time)
     {
@@ -69,13 +90,14 @@ public class PlayerStamina : MonoBehaviour
         {
             _playerManager.Movement.HaveStamina = false; // avisa al player movement que no tiene stamina disponible
         }
+      
 
     }
 
     // Restaura la stamina disponible a un valor especifico (bebidas energeticas)
     public void RestoreAvailableStamina(float stamina)
     {
-        ActualStamina = stamina;
+        _availableStamina = stamina;
     }
 
     // Restaura el movimiento del jugador y saca el cooldown

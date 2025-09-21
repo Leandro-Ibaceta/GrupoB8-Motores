@@ -5,8 +5,10 @@ public class PlayerInputs : MonoBehaviour
 {
     #region INSPECTOR_ATTRIBUTES
     [Header("Sensitivity attributes")]
-    [SerializeField][Range(0.1f, 100)] private float _mouseVerticallSensitivity = 10;
-    [SerializeField][Range(0.1f, 100)] private float _mouseHorizontalSensitivity = 10;
+    [SerializeField] private float _minSensitivity = 0.1f;
+    [SerializeField] private float _maxSensitivity = 1000f;
+    [SerializeField][Range(0.1f, 1000)] private float _mouseVerticallSensitivity = 10;
+    [SerializeField][Range(0.1f, 1000)] private float _mouseHorizontalSensitivity = 10;
     [Header("Mouse Axis direction attributes")]
     [SerializeField] private bool _isMouseYAxisInverted = false;
     [SerializeField] private bool _isMouseXAxisInverted = false;
@@ -14,9 +16,25 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] private bool _isYAxisInverted = false;
     [SerializeField] private bool _isXAxisInverted = false;
     [SerializeField] private bool _isLateralAxisInverted = false;
+    [Header("Cursor attributes")]
+    [SerializeField] private CursorLockMode _lockMode = CursorLockMode.Locked;
+
 
     #endregion
     #region INTERNAL_ATTRIBUTES
+
+
+
+
+    private bool _isEscapeClicked;
+    private bool _isEscapeHeldPressed;
+    private bool _isEscapeReleased;
+    private bool _isConsumeClicked;
+    private bool _isConsumeHeldPressed;
+    private bool _isConsumeReleased;
+    private bool _isInteractClicked;
+    private bool _isInteractHeldPressed;
+    private bool _isInteractReleased;
     private bool _isRMBClicked;
     private bool _isRMBHeldPressed;
     private bool _isRMBReleased;
@@ -36,11 +54,22 @@ public class PlayerInputs : MonoBehaviour
     #endregion
     #region PROPERTIES
 
+    public float MaxSensitivity => _maxSensitivity;
+    public float MinSensitivity => _minSensitivity;
+    public bool IsEscapeClicked => _isEscapeClicked;
+    public bool IsEscapeHeldPressed => _isEscapeHeldPressed;
+    public bool IsEscapeReleased => _isEscapeReleased;
+    public bool IsConsumeClicked => _isConsumeClicked;
+    public bool IsConsumeHeldPressed => _isConsumeHeldPressed;
+    public bool IsConsumeReleased => _isConsumeReleased;
+    public bool IsInteractClicked => _isInteractClicked;
+    public bool IsInteractHeldPressed => _isInteractHeldPressed;
+    public bool IsInteractReleased => _isInteractReleased;
     public bool IsThrowClicked => _isThrowClicked;
     public bool IsLowStancePressed => _lowStancePressed;
     public bool IsHighStancePressed => _highStancePresed;
     public bool IsSprintHeldPressed => _isSprintHeldPressed;
-    public float MouseYAxis => _mouseYAxis; 
+    public float MouseYAxis => _mouseYAxis;
     public float MouseXAxis => _mouseXAxis;
     public float YAxis => _yAxis;
     public float XAxis => _xAxis;
@@ -60,6 +89,11 @@ public class PlayerInputs : MonoBehaviour
     public float MouseVerticalSensitivity { get { return _mouseVerticallSensitivity; } set { _mouseVerticallSensitivity = value; } }
     public float MouseHorizontalSensitivity { get { return _mouseHorizontalSensitivity; } set { _mouseHorizontalSensitivity = value; } }
     #endregion
+   
+    private void Start()
+    {
+        ChangeCursorLockState(_lockMode);
+    }
 
     // Actualiza los inputs cada frame
     void Update()
@@ -89,5 +123,27 @@ public class PlayerInputs : MonoBehaviour
         _highStancePresed = Input.GetButtonDown("Jump");
         _isSprintHeldPressed = Input.GetButton("Sprint");
         _isThrowClicked = Input.GetButtonDown("Throw");
+
+        // Obtiene el estado del boton de interaccion
+        _isInteractClicked = Input.GetButtonDown("Interact");
+        _isInteractHeldPressed = Input.GetButton("Interact");
+        _isInteractReleased = Input.GetButtonUp("Interact");
+
+        // Obtiene el estado del boton de consumible
+        _isConsumeClicked = Input.GetButtonDown("Consume");
+        _isConsumeHeldPressed = Input.GetButton("Consume");
+        _isConsumeReleased = Input.GetButtonUp("Consume");
+
+
+        _isEscapeClicked = Input.GetButtonDown("Cancel");
+        _isEscapeHeldPressed = Input.GetButton("Cancel");
+        _isEscapeReleased=Input.GetButtonUp("Cancel");
+
     }
+
+    public void ChangeCursorLockState(CursorLockMode newLockMode)
+    {
+        Cursor.lockState = newLockMode;
+    }
+
 }
