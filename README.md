@@ -1,4 +1,4 @@
 # GrupoB8-Motores
 Juego para Motores de Desarrollo 1
 
-_Facu 14/09/2025: Refactorizacion del codigo del jugador completo. Movimiento, stamina, deteccion y persecusion completos.
+_Facu 16/09/2025: Se agrego un toolbelt para ver los consumibles disponibles y se agrego el comporamiento a las granadas de humo y a los dardos...
