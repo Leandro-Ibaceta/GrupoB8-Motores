@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class SecurityGuard : Enemy
+public class EnemySecurityGuard : Enemy
 {
 
     [Header("Animator reference")]
     [SerializeField] private Animator _animator;
     [Header("Animation attributes")]
     [SerializeField] private float _animationChangeFactor;
-    
+    [SerializeField] private bool _isNeutralizable = true;
 
     private float _animationBlend;
     private Enemy_Ragdoll _ragdoll;
@@ -42,7 +42,8 @@ public class SecurityGuard : Enemy
 
     public override void Neutralize() // desactiva el agente y modifica rigidbody para que el enemigo se caiga por el suelo 
     {
-         base.Neutralize();
+        if (!_isNeutralizable) return;
+        base.Neutralize();
         _ragdoll.ActivateRagdoll();
     }
 

@@ -41,7 +41,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8475771138381531472}
   - component: {fileID: 3001941270961361028}
+  - component: {fileID: 1420669485870868163}
   - component: {fileID: 259312991266922640}
+  - component: {fileID: 6920532395043316382}
+  - component: {fileID: 6729603727933315198}
+  - component: {fileID: 3999105578463956534}
+  - component: {fileID: 2372275567309469572}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -79,6 +84,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSpawnPoint: {fileID: 262286720873893806}
   _enemyManager: {fileID: 0}
+--- !u!114 &1420669485870868163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361145585967025645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3019590d3be8044b7ccd302ab70d7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &259312991266922640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,10 +108,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7409de9774c7fe54bbc33e42c90d9271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mouseVerticallSensitivity: 10
-  _mouseHorizontalSensitivity: 10
+  _minSensitivity: 0.1
+  _maxSensitivity: 1000
+  _mouseVerticallSensitivity: 68.9
+  _mouseHorizontalSensitivity: 68.9
   _isMouseYAxisInverted: 0
   _isMouseXAxisInverted: 0
   _isYAxisInverted: 0
   _isXAxisInverted: 0
   _isLateralAxisInverted: 0
+  _lockMode: 1
+--- !u!114 &6920532395043316382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361145585967025645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b9459912f8d454cb4d6c74a8752e8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerObject: {fileID: 0}
+  _maxLifes: 3
+  _GFX: {fileID: 0}
+  _gunGFX: {fileID: 0}
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &6729603727933315198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361145585967025645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959eea82d834367428fa4eedcc555377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultItems:
+  - {fileID: 11400000, guid: 7008c1dc0db97cc429f02d669fe60b55, type: 2}
+  - {fileID: 11400000, guid: d88020181364fdb4fb8f40cf9e5c18d9, type: 2}
+  _quantity: 0500000002000000
+--- !u!114 &3999105578463956534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361145585967025645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64451176b626e2b49b19229f8720abf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _controlMenu: {fileID: 0}
+  _inGameMenu: {fileID: 0}
+  _HUD: {fileID: 0}
+--- !u!114 &2372275567309469572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5361145585967025645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7393c64862579674f844ed8ad86647dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

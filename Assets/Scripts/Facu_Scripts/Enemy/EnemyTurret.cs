@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Turret : Enemy
+public class EnemyTurret : Enemy
 {
     [SerializeField] Transform _shootPosition;
     [SerializeField] float _shootDistance = 10f;
@@ -23,7 +23,7 @@ public class Turret : Enemy
     protected override void Start()
     {
         base.Start();
-        _playerManager = PlayerManager.instance;   
+        _playerManager = GameManager.instance.PlayerManager;   
         _playerLayer = _playerManager.PlayerLayer;
         _attackRateValue = 1f / _attackRate;
         _burstRate = _attackRate / 2;
@@ -33,7 +33,7 @@ public class Turret : Enemy
         if (!_isAttacking)
         {
             _isAttacking = true;
-           InvokeRepeating("Burst", 0f, _burstRate);
+           InvokeRepeating(nameof(Burst), 0f, _burstRate);
         }
        
     }
@@ -52,20 +52,20 @@ public class Turret : Enemy
         if(_agent.ActualState != Enemy_agent.ENEMY_STATE.ATTACKING)
         {
             _isAttacking = false;
-            CancelInvoke("Shoot");
-            CancelInvoke("Burst");
+            CancelInvoke(nameof(Shoot));
+            CancelInvoke(nameof(Burst));
             return;
         }
 
         if (_shotsFired >= _attackRate)
         {
 
-            CancelInvoke("Shoot");
-            Invoke("ResetAttack", _burstRate);
+            CancelInvoke(nameof(Shoot));
+            Invoke(nameof(ResetAttack), _burstRate);
             _cooldown = true;
             return;
         }
-        InvokeRepeating("Shoot",0,_attackRateValue);
+        InvokeRepeating(nameof(Shoot), 0,_attackRateValue);
 
 
     }

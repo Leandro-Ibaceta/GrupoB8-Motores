@@ -43,11 +43,11 @@ public class PlayerStamina : MonoBehaviour
     #endregion
     private void Start()
     {
-        _inventory = Inventory.instance;
+        _inventory = GameManager.instance.Inventory;
         _availableStamina = _maxStamina;
         _actualStamina = _availableStamina;
         _isCoolingDown = false;
-        _playerManager = PlayerManager.instance;
+        _playerManager = GameManager.instance.PlayerManager;
         _inputs = GameManager.instance.Inputs;
 
     }

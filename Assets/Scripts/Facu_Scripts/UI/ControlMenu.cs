@@ -68,7 +68,8 @@ public class ControlMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        UIManager.Instance.ActiveMenu(UIManager.Instance.InGameMenu);
+        UIManager manager = GameManager.instance.UIManager;
+        manager.ActiveMenu(manager.InGameMenu);
     }
     private void OnDestroy()
     {

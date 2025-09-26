@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         _rb.freezeRotation = true;
         _maxVelocity = _maxNormalVelocity;
         _rb.maxLinearVelocity = _maxVelocity;
-        _playerManager = PlayerManager.instance;
+        _playerManager = GameManager.instance.PlayerManager;
         _inputs = GameManager.instance.Inputs;
         _playerManager.ActiveCollider = _walkCollider;
     }

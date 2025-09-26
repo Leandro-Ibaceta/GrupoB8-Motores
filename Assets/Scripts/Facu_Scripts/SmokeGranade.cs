@@ -14,7 +14,7 @@ public class SmokeGranade : MonoBehaviour
     {
         _collider = GetComponent<Collider>();
         _rb = GetComponent<Rigidbody>();
-        Invoke("Explode",_explodeDelay);
+        Invoke(nameof(Explode),_explodeDelay);
     }
     private void Update()
     {

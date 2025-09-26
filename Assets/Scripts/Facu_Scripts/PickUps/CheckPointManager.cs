@@ -6,30 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class CheckPointManager : MonoBehaviour
 {
-    public static CheckPointManager instance;
-
-
-   
     private List<string> _deletedPickUps = new List<string>();
     private List<string> _deletedEnemies = new List<string>();
 
     private void Awake()
-    {
-
-    
-        if (instance == null)
-        {
-            instance = this;
-            SceneManager.sceneLoaded += UpdateCheckPoint;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-    } //singleton pattern
-
+    { 
+          SceneManager.sceneLoaded += UpdateCheckPoint;
+    }     
     public void ResetAll()
     {
         _deletedPickUps.Clear();

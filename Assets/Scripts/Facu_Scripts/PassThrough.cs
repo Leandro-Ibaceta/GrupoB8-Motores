@@ -22,7 +22,7 @@ public class PassThrough : MonoBehaviour
 
     private void Start()
     {
-        _playerManager = PlayerManager.instance;
+        _playerManager = GameManager.instance.PlayerManager;
         _inputs = GameManager.instance.Inputs;
         _playerTransform = _playerManager.PlayerObject.transform;
         _playerRigidbody = _playerManager.Rigid_Body;
@@ -63,7 +63,8 @@ public class PassThrough : MonoBehaviour
     {
         if(_playerManager.CompareLayer(other.gameObject.layer))
         {
-            if(_inputs.IsInteractClicked)
+            Debug.Log("Player in trigger");
+            if (_inputs.IsInteractClicked)
             {
                 if(Vector3.Dot(-transform.forward, (_playerTransform.position - transform.position)) < 0)
                 {
@@ -78,7 +79,13 @@ public class PassThrough : MonoBehaviour
             }
         }
     }
-
+    private void OnTriggerExit(Collider other)
+    {
+        if (_inputs.IsInteractClicked)
+        {
+            Debug.Log("Player out of trigger");
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {

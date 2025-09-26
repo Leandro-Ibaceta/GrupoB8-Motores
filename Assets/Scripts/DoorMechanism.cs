@@ -25,7 +25,7 @@ public class DoorMechanism : MonoBehaviour
     {
         // calcula la posicion a la que se movera la puerta al abrirse
         _doorHeightOffset = transform.position + transform.up * _doorheigt;
-        _playerInventory = Inventory.instance;
+        _playerInventory = GameManager.instance.Inventory;
         _startPosition = transform.position;
 
     }

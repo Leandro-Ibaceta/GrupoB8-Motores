@@ -9,7 +9,7 @@ public class TorretConsole : MonoBehaviour
 
     private void Start()
     {
-        _playerManager = PlayerManager.instance;
+        _playerManager = GameManager.instance.PlayerManager;
         _inputs = GameManager.instance.Inputs;
     }
 
@@ -21,7 +21,7 @@ public class TorretConsole : MonoBehaviour
             if(_inputs.IsInteractClicked)
                 foreach (Enemy enemy in _enemyManager.Enemies)
                 {
-                    if (enemy is Turret turret)
+                    if (enemy is EnemyTurret turret)
                     {
                         turret.Neutralize();
                     }

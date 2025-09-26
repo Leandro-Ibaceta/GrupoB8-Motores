@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
+    
 
     [SerializeField] private GameObject _controlMenu;
     [SerializeField] private GameObject _inGameMenu;
@@ -13,18 +14,6 @@ public class UIManager : MonoBehaviour
     private PlayerInputs _inputs;
     private GameObject _activeMenu;
     
-    private void Awake()
-    {
-        if(Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
 
     public GameObject ControlMenu
@@ -32,7 +21,7 @@ public class UIManager : MonoBehaviour
         get { 
             if(_controlMenu == null)
             {
-                return FindAnyObjectByType<ControlMenu>().gameObject;
+                return FindAnyObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
             }
             return _controlMenu; }
     }
@@ -42,17 +31,20 @@ public class UIManager : MonoBehaviour
         {
             if (_inGameMenu == null)
             {
-                return FindAnyObjectByType<InGameMenu>().gameObject;
+                return FindAnyObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
             }
             return _inGameMenu;
         }
     }
     private void Start()
     {
+        SceneManager.sceneLoaded += (scene, mode) =>
+        {
+            _inGameMenu = FindAnyObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
+            _controlMenu = FindAnyObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+        };
         _inputs = GameManager.instance.Inputs;
         _activeMenu = _inGameMenu;
-
-
     }
     private void Update()
     {

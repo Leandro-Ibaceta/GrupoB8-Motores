@@ -13,7 +13,7 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         _agent = GetComponent<Enemy_agent>();
-        _checkPointManager = CheckPointManager.instance;
+        _checkPointManager = GameManager.instance.CheckPointManager;
     }
     public abstract void Attack();
     public virtual void Neutralize()

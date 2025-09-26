@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public static Inventory instance;
+
     [SerializeField] private Item[] _defaultItems; // Items por defecto al iniciar el juego
     [SerializeField] private int[] _quantity;
 
@@ -15,20 +15,7 @@ public class Inventory : MonoBehaviour
     public OnItemChanged onItemChangedCallback; // Evento que se invoca cuando el inventario cambia
     public Dictionary<Item, int> Items => _items; 
 
-    private void Awake() // Singleton
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-   
-
+  
     public void addDefaultItems()
     {
         if (_defaultItems.Length < 1) return;
@@ -52,7 +39,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-
+    public void ResetInventory()
+    {
+        _items.Clear();
+        onItemChangedCallback?.Invoke();
+        addDefaultItems();
+    }
 
     // Agrega un item al inventario, si ya existe y no esta en su maximo de usos, aumenta el uso en 1.
     public bool AddItem(Item item)

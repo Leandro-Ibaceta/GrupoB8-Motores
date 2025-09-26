@@ -6,13 +6,23 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private Transform _playerSpawnPoint;
-    [SerializeField] private EnemyManager _enemyManager;
+   
+    
 
 
     private Vector3 _playerStartPosition;
+    private CheckPointManager _checkPointManager;
     private PlayerManager _playerManager;
     private PlayerInputs _inputs;
+    private Inventory _inventory;
+    private EnemyManager _enemyManager;
+    private UIManager _uiManager;
 
+
+    public PlayerManager PlayerManager => _playerManager;
+    public UIManager UIManager => _uiManager;
+    public Inventory Inventory => _inventory;
+    public CheckPointManager CheckPointManager => _checkPointManager;
     public PlayerInputs Inputs { get { return _inputs; } }
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
     public EnemyManager EnemyManager { get { return _enemyManager; } set { _enemyManager = value; } }
@@ -22,6 +32,11 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             _inputs = GetComponent<PlayerInputs>();
+            _inventory = GetComponent<Inventory>();
+            _checkPointManager = GetComponent<CheckPointManager>();
+            _uiManager = GetComponent<UIManager>();
+            _enemyManager = GetComponent<EnemyManager>();
+            _playerManager = GetComponent<PlayerManager>();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -33,9 +48,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _playerStartPosition = _playerSpawnPoint.position;
-        _playerManager =  PlayerManager.instance;
         _playerManager.PlayerObject.transform.position = _playerSpawnPoint.position;
-    }
+    } 
 
     public void QuitGame()
     {
@@ -45,8 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Destroy(Inventory.instance);
-        Destroy(CheckPointManager.instance);
+        _inventory.ResetInventory();
         _playerSpawnPoint.position = _playerStartPosition;
         _playerManager.Lifes = _playerManager.MaxLifes;
         LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);

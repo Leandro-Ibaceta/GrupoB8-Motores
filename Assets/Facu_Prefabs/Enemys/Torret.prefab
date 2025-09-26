@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1780157627771972114}
   - component: {fileID: 3572722640444321077}
   - component: {fileID: 4845111090989888722}
-  - component: {fileID: 8403780957197542821}
+  - component: {fileID: 7126519996552256104}
   m_Layer: 6
   m_Name: Torret
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MonoBehaviour:
   _minimalAttackDistance: 20
   _searchingTime: 2.5
   _stoppingDistanceVisualization: {r: 0.9811321, g: 0, b: 0, a: 1}
---- !u!114 &8403780957197542821
+--- !u!114 &7126519996552256104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,14 +88,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2264519496973201183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1755ae36854b9964fa972c431e29fa14, type: 3}
+  m_Script: {fileID: 11500000, guid: cd75a70172e1d8f4697b70ee8dd0ea83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _shootPosition: {fileID: 7729292595044457193}
   _shootDistance: 10
-  _damage: 2
+  _damage: 5
   _muzzleFlash: {fileID: 8098134375496262693}
-  _attackRate: 4
+  _attackRate: 2
 --- !u!1 &3925101979534683213
 GameObject:
   m_ObjectHideFlags: 0
@@ -5606,6 +5606,9 @@ MonoBehaviour:
   _obstaclesLayers:
     serializedVersion: 2
     m_Bits: 776
+  _hideLayers:
+    serializedVersion: 2
+    m_Bits: 0
   _coneRotationSpeed: 60
   _maxAngle: 38
   _minimalDetectionDistance: 6
