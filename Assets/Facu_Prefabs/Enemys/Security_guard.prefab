@@ -72,9 +72,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _patrolSector: {fileID: 0}
   _patrolType: 1
-  _stoppingDistance: 1.8
-  _patrolSpeed: 3.9
-  _searchingSpeed: 1.7
+  _stoppingDistance: 0.5
+  _patrolSpeed: 1.7
+  _searchingSpeed: 1.1
   _attackingSpeed: 3.6
   _aceleration: 27.4
   _minimalAttackDistance: 2
@@ -609,7 +609,7 @@ MonoBehaviour:
     m_Bits: 776
   _hideLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1152
   _coneRotationSpeed: 30
   _maxAngle: 90
   _minimalDetectionDistance: 2

@@ -60,12 +60,15 @@ public class PlayerStamina : MonoBehaviour
 
         if (_inputs.IsConsumeClicked) // Usa una bebida energetica
         {
-            if (_inventory.Items.ContainsKey(_energyDrinkItem) && _inventory.Items[_energyDrinkItem] > 0)
+            if (_inventory.Items.ContainsKey(_energyDrinkItem))
             { 
-                RestoreAvailableStamina(_maxStamina);
-                _actualStamina = _availableStamina;
-                _inventory.RemoveItem(_energyDrinkItem);
-                _playerManager.Movement.HaveStamina = true;
+                if (_inventory.Items[_energyDrinkItem] > 0)
+                { 
+                    RestoreAvailableStamina(_maxStamina);
+                    _actualStamina = _availableStamina;
+                    _inventory.RemoveItem(_energyDrinkItem);
+                    _playerManager.Movement.HaveStamina = true;
+                }
             }
 
         }

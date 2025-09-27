@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,13 +10,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _controlMenu;
     [SerializeField] private GameObject _inGameMenu;
     [SerializeField] private GameObject _HUD;
+    [SerializeField] private float _popUpMessageTime = 2;
     // private MainMenu _mainMenu
-    // private PopUpMessage
+    private TMP_Text _interactMessage;
     private PlayerInputs _inputs;
     private GameObject _activeMenu;
     
 
-
+    public TMP_Text InteractMessage { get { return _interactMessage; } }
     public GameObject ControlMenu
     {
         get { 
@@ -38,13 +40,12 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
+        _inputs = GameManager.instance.Inputs;
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            _inGameMenu = FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
-            _controlMenu = FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+            SearchReferemces();
         };
-        _inputs = GameManager.instance.Inputs;
-        _activeMenu = InGameMenu;
+        SearchReferemces();
     }
     private void Update()
     {
@@ -55,10 +56,38 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void PopUpMessage(string message)
+    {
+        _interactMessage.text = message;
+        _interactMessage.enabled = true;
+    }
+
+    public void PopUpMesssageTimed(string message)
+    {
+        PopUpMessage(message);
+        Invoke(nameof(HideMessage), _popUpMessageTime);
+
+    }
+
+    public void HideMessage()
+    {
+        _interactMessage.enabled = false;
+    }
+
+
+    private void SearchReferemces()
+    {
+        _inGameMenu = FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
+        _controlMenu = FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+        _HUD = GameObject.Find("HUD");
+        _interactMessage = GameObject.Find("Interact_message").GetComponent<TMP_Text>();
+        _activeMenu = InGameMenu;
+    }
+
     public void ActiveMenu(GameObject activeMenu)
     {
        
-        if(activeMenu == null) _activeMenu = GameObject.Find(activeMenu.name);
+        if(activeMenu == null) SearchReferemces();
         else _activeMenu = activeMenu;
 
         if (!_activeMenu.activeSelf)

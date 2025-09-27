@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 4099565191197242814}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.980747, y: 7.649781, z: 14.467437}
+  m_LocalPosition: {x: -25.6, y: 6.53, z: 44.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,7 +83,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSpawnPoint: {fileID: 262286720873893806}
-  _enemyManager: {fileID: 0}
 --- !u!114 &1420669485870868163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,11 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerObject: {fileID: 0}
   _maxLifes: 3
-  _GFX: {fileID: 0}
-  _gunGFX: {fileID: 0}
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &6729603727933315198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,6 +162,7 @@ MonoBehaviour:
   _controlMenu: {fileID: 0}
   _inGameMenu: {fileID: 0}
   _HUD: {fileID: 0}
+  _popUpMessageTime: 2
 --- !u!114 &2372275567309469572
 MonoBehaviour:
   m_ObjectHideFlags: 0

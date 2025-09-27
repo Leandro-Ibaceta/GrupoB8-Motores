@@ -17,6 +17,7 @@ public class DoorMechanism : MonoBehaviour
 
 
     private Inventory _playerInventory;
+    private UIManager _uiManager;
     private bool _isOpen = false;
     private Vector3 _doorHeightOffset;
     private Vector3 _startPosition;
@@ -27,6 +28,7 @@ public class DoorMechanism : MonoBehaviour
         _doorHeightOffset = transform.position + transform.up * _doorheigt;
         _playerInventory = GameManager.instance.Inventory;
         _startPosition = transform.position;
+        _uiManager = GameManager.instance.UIManager;
 
     }
 
@@ -57,7 +59,7 @@ public class DoorMechanism : MonoBehaviour
     }   
 
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision collision)
     {
 
         // Si el objeto que entra en el trigger es el jugador,
@@ -72,12 +74,17 @@ public class DoorMechanism : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("You need a key with security level: " + _securityLevel);
+                    _uiManager.PopUpMesssageTimed("You need a key with security level: " + _securityLevel);
                 }
             }
             else
             {
-                Debug.Log("You need a key with security level: " + _securityLevel);
+                if(_securityLevel == 0)
+                {
+                    _isOpen = true;
+                    return;
+                }
+                _uiManager.PopUpMesssageTimed("You need a key with security level: " + _securityLevel);
             }
         }
         

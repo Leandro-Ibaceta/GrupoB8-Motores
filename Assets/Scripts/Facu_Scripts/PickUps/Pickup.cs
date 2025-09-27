@@ -28,6 +28,8 @@ public class Pickup : MonoBehaviour
             if(_inventory.AddItem(item))
             {
                 _pickUpsManager.DeletePickUp(gameObject.name);
+                gameObject.SetActive(false);
+
             }
         }
     }

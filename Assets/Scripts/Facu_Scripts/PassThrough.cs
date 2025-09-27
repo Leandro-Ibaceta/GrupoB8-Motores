@@ -17,11 +17,13 @@ public class PassThrough : MonoBehaviour
     private Transform _playerTransform;
     private Rigidbody _playerRigidbody;
     private Vector3 _destination;
+    private UIManager _uiManager;
 
 
 
     private void Start()
     {
+        _uiManager = GameManager.instance.UIManager;
         _playerManager = GameManager.instance.PlayerManager;
         _inputs = GameManager.instance.Inputs;
         _playerTransform = _playerManager.PlayerObject.transform;
@@ -57,13 +59,18 @@ public class PassThrough : MonoBehaviour
         }
     }
 
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_playerManager.CompareLayer(other.gameObject.layer))
+        {
+            _uiManager.PopUpMessage("Press E to pass through");
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
         if(_playerManager.CompareLayer(other.gameObject.layer))
         {
-            Debug.Log("Player in trigger");
             if (_inputs.IsInteractClicked)
             {
                 if(Vector3.Dot(-transform.forward, (_playerTransform.position - transform.position)) < 0)
@@ -81,9 +88,9 @@ public class PassThrough : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (_inputs.IsInteractClicked)
+        if (_playerManager.CompareLayer(other.gameObject.layer))
         {
-            Debug.Log("Player out of trigger");
+            _uiManager.HideMessage();
         }
     }
 

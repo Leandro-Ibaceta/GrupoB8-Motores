@@ -13,7 +13,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (_playerManager.CompareLayer(other.gameObject.layer))
         {
-            GameManager.instance.SetCheckpoint(transform.position);
+            GameManager.instance.SetCheckpoint(other.transform.position);
         }
 
     }
