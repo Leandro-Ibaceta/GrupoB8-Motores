@@ -665,7 +665,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 2
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -754,8 +754,7 @@ MonoBehaviour:
   _collisionLayers:
     serializedVersion: 2
     m_Bits: 264
-  _aimingFOV: 45.9
-  _lockMode: 1
+  _aimingFOV: 60
   _target: {fileID: 4278790100938859978}
   _shoulderCameraPosition: {fileID: 3291129016747962014}
 --- !u!1 &1433121539557812449
@@ -2976,6 +2975,7 @@ MonoBehaviour:
   _maxStaminaDrainFactor: 2
   _staminaRecoveryFactor: 1
   _tiredCooldown: 2
+  _energyDrinkItem: {fileID: 0}
 --- !u!114 &8926384535273802962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3021,6 +3021,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _SmokeGranadePrefab: {fileID: 4126861189891868246, guid: 3b05e2da45f2f564c93fae4fa46334d2, type: 3}
+  _attackAnimationSpeed: 2
   _dart: {fileID: 11400000, guid: 7008c1dc0db97cc429f02d669fe60b55, type: 2}
   _smokeGranade: {fileID: 11400000, guid: d88020181364fdb4fb8f40cf9e5c18d9, type: 2}
 --- !u!114 &2401345404662860199
@@ -3128,7 +3129,7 @@ Transform:
   m_GameObject: {fileID: 7435889668881249136}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.208, y: 1.43, z: -1.4}
+  m_LocalPosition: {x: 0.55, y: 1.57, z: -1.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

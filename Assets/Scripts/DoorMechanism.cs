@@ -12,7 +12,7 @@ public class DoorMechanism : MonoBehaviour
     [SerializeField] private float _openSpeed = 5f;
     [SerializeField] private float _closeSpeed = 5f;
     [Header("Player Layer")]
-    [SerializeField] private LayerMask _playerLayer;
+    [SerializeField] private LayerMask _detectionLayer;
 
 
 
@@ -62,7 +62,7 @@ public class DoorMechanism : MonoBehaviour
 
         // Si el objeto que entra en el trigger es el jugador,
         // verifica si tiene la llave correcta para abrir la puerta
-        if (((1 << collision.gameObject.layer) & _playerLayer) != 0)
+        if (((1 << collision.gameObject.layer) & _detectionLayer) != 0)
         {
             if (_playerInventory.Items.ContainsKey(_keyItem))
             {

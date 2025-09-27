@@ -94,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 39570817298837865}
   _animationChangeFactor: 0.9
+  _isNeutralizable: 1
 --- !u!1 &8637009403568122603
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +110,7 @@ GameObject:
   - component: {fileID: 666262411153876792}
   - component: {fileID: 8679059904366711469}
   - component: {fileID: 6197060969378759644}
+  - component: {fileID: 4125867788604042514}
   m_Layer: 2
   m_Name: Cone
   m_TagString: Untagged
@@ -481,7 +483,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1332
+  m_VersionIndex: 1341
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -605,10 +607,33 @@ MonoBehaviour:
   _obstaclesLayers:
     serializedVersion: 2
     m_Bits: 776
+  _hideLayers:
+    serializedVersion: 2
+    m_Bits: 0
   _coneRotationSpeed: 30
   _maxAngle: 90
   _minimalDetectionDistance: 2
   _parent: {fileID: 2990156063309493938}
+--- !u!114 &4125867788604042514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8637009403568122603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &9138425681796269121
 GameObject:
   m_ObjectHideFlags: 0

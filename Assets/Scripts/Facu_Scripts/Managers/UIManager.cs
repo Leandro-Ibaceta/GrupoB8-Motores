@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
         get { 
             if(_controlMenu == null)
             {
-                return FindAnyObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+                return FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
             }
             return _controlMenu; }
     }
@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         {
             if (_inGameMenu == null)
             {
-                return FindAnyObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
+                return FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
             }
             return _inGameMenu;
         }
@@ -40,11 +40,11 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += (scene, mode) =>
         {
-            _inGameMenu = FindAnyObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
-            _controlMenu = FindAnyObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+            _inGameMenu = FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
+            _controlMenu = FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
         };
         _inputs = GameManager.instance.Inputs;
-        _activeMenu = _inGameMenu;
+        _activeMenu = InGameMenu;
     }
     private void Update()
     {
