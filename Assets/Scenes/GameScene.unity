@@ -85600,7 +85600,12 @@ MonoBehaviour:
   cinematicUI: {fileID: 681166304}
   textDisplay: {fileID: 186828562}
   typingSpeed: 0.04
-  storyLines: []
+  storyLines:
+  - Tras la derrota de la IA, el mundo ha cambiado de una manera radical
+  - "Nadie fue conciente de lo dif\xEDcil que fue adaptarse a un mundo sin la IAl"
+  - "Aunque haya salido de control, era \xFAtil en muchos aspectos..."
+  - "Pero ahora... \xBFQu\xE9 le espera a la humanidad?"
+  - FIN
   timeBetweenLines: 2
 --- !u!43 &694144400
 Mesh:
@@ -173749,7 +173754,7 @@ GameObject:
   - component: {fileID: 1519102407}
   - component: {fileID: 1519102406}
   m_Layer: 5
-  m_Name: CinenaticUI
+  m_Name: CinematicUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
