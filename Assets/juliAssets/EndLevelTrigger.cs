@@ -59,4 +59,10 @@ public class EndLevelTrigger : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
     }
+
+    public void StartCinematic()
+    {
+        triggered = true;
+        StartCoroutine(PlayCinematic());
+    }
 }

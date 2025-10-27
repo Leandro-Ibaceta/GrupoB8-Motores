@@ -3,6 +3,7 @@ using UnityEngine;
 public class WinPoint : MonoBehaviour
 {
    private PlayerManager _playerManager;
+    public EndLevelTrigger cinematicTrigger;
 
     private void Start()
     {
@@ -13,7 +14,7 @@ public class WinPoint : MonoBehaviour
     {
         if(_playerManager.CompareLayer(other.gameObject.layer))
         {
-            GameManager.instance.LoadWinScene();
+            cinematicTrigger.StartCinematic();
         }
     }
 
