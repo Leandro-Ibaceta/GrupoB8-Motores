@@ -10,16 +10,18 @@ public class Player : MonoBehaviour
 
     private PlayerManager _playerManager;
 
+    [Header("Audio")] // 🔊 nuevo encabezado
+    [SerializeField] private AudioSource _damageAudioSource; // 🔊 referencia al AudioSource
+
     public float HealthValue => _health;
     public float MaxHealth => _maxHealth;
-
     public GameObject GFX => _GFX;
     public GameObject GunGFX => _gunGFX;
 
     private void Awake()
-    { 
-        if(GameManager.instance == null) return;
-        if(GameManager.instance.PlayerManager == null) return;
+    {
+        if (GameManager.instance == null) return;
+        if (GameManager.instance.PlayerManager == null) return;
         if (GameManager.instance.PlayerManager.PlayerObject != gameObject)
             GameManager.instance.PlayerManager.SetPlayer(gameObject);
     }
@@ -31,11 +33,9 @@ public class Player : MonoBehaviour
         _playerManager = GameManager.instance.PlayerManager;
     }
 
-
-    //solo para debug
-
     private void Update()
     {
+        // solo para debug
         if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(10);
@@ -46,13 +46,19 @@ public class Player : MonoBehaviour
         }
     }
 
-
     public void TakeDamage(float damage)
     {
         _health -= damage;
-        if(_health <= 0)
+
+        // 🔊 reproducir sonido de daño
+        if (_damageAudioSource != null)
         {
-            if(_playerManager.Lifes>0)
+            _damageAudioSource.PlayOneShot(_damageAudioSource.clip);
+        }
+
+        if (_health <= 0)
+        {
+            if (_playerManager.Lifes > 0)
             {
                 _playerManager.Lifes--;
                 _playerManager.Health.Heal(_maxHealth);
@@ -64,10 +70,10 @@ public class Player : MonoBehaviour
             }
         }
     }
+
     public void Heal(float health)
     {
         _health += health;
         _health = Mathf.Clamp(_health, 0, _maxHealth);
     }
-
 }

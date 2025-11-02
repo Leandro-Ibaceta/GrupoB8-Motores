@@ -10,6 +10,12 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private string _attackTriggerName;
     [SerializeField] private string _granadeTriggerName;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _shootAudioSource;
+    [SerializeField] private AudioSource _grenadeAudioSource;
+
+
+
     private PlayerManager _playerManager;
 
     private void Start()
@@ -60,9 +66,19 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     public void BeginShooting()
+{
+
+
+    if (_shootAudioSource != null)
     {
-        _playerManager.Attack.Attack();
+
+        _shootAudioSource.pitch = Random.Range(0.95f, 1.05f);
+        _shootAudioSource.PlayOneShot(_shootAudioSource.clip);
     }
+    
+
+    _playerManager.Attack.Attack();
+}
     public void EndedShooting()
     {
         _playerManager.Movement.enabled = true;
@@ -70,10 +86,16 @@ public class PlayerAnimation : MonoBehaviour
         _playerManager.GFX.transform.Rotate(0,90,0);
         _playerManager.GunGFX.SetActive(false);
     }
-    public void SetGranadeTrigger()
+   public void SetGranadeTrigger()
+{
+    _animator.SetTrigger(_granadeTriggerName);
+
+    if (_grenadeAudioSource != null && _grenadeAudioSource.clip != null)
     {
-        _animator.SetTrigger(_granadeTriggerName);
+        _grenadeAudioSource.pitch = Random.Range(0.95f, 1.05f);
+        _grenadeAudioSource.PlayOneShot(_grenadeAudioSource.clip);
     }
+}
 
     public void BeginStandingUp()
     {

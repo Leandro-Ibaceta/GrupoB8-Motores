@@ -17,9 +17,15 @@ public class Enemy_Survilance : MonoBehaviour
     [SerializeField] private float _coneRotationSpeed;
     [SerializeField] [Range(0,179)] private float _maxAngle = 90f;
 
-    
+
     [Header("Parent transform")]
     [SerializeField] private Transform _parent;
+    
+    [Header("Audio de detección")]
+    [SerializeField] private AudioSource detectionAudioSource;
+    [SerializeField] private AudioClip detectionClip;
+    private bool hasPlayedDetectionSound = false;
+
     #endregion
     #region INTERNAL_ATTRIBUTES
  
@@ -154,40 +160,45 @@ public class Enemy_Survilance : MonoBehaviour
         }
         return false;
     }
-     void OnTriggerStay(Collider collision)
+    void OnTriggerStay(Collider collision)
     {
+
         // compara las layers entre el objeto que esta dentro del trigger, 
         // si es el jugador, lo detecta y va actualizando su posicion mientras sea detectado y no tenga obstaculos en el medio
-       
-        if(_playerManager.CompareLayer(collision.gameObject.layer))
+
+        if (_playerManager.CompareLayer(collision.gameObject.layer))
         {
             _playerInSight = checkPlayerOnSight(collision);
             if (_playerInSight)
             {
-                
                 if (!_playerDetected)
                 {
                     _playerDetected = true;
-                }
-                _enemyAgent.LastPlayerPosition = collision.transform.position;
-            }
-            else 
-            {
-                _enemyAgent.LastPlayerPosition = collision.transform.position;
 
-            }
-        }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer(_playerManager.HideLayerName))
-        {
-            if (checkPlayerOnSight(collision))
-            {
-                _playerDetected = false;
+                    // 🔊 Reproducir sonido de detección una sola vez
+                    if (!hasPlayedDetectionSound && detectionAudioSource != null && detectionClip != null)
+                    {
+                        detectionAudioSource.PlayOneShot(detectionClip);
+                        hasPlayedDetectionSound = true;
+                        Debug.Log("[ENEMY] Jugador detectado → sonido de alerta reproducido");
+                    }
+                }
+
                 _enemyAgent.LastPlayerPosition = collision.transform.position;
             }
-            _playerInSight = false; // marca que el jugador no esta siendo visto
+            else if (collision.gameObject.layer == LayerMask.NameToLayer(_playerManager.HideLayerName))
+            {
+                if (checkPlayerOnSight(collision))
+                {
+                    _playerDetected = false;
+                    _enemyAgent.LastPlayerPosition = collision.transform.position;
+                }
+                _playerInSight = false; // marca que el jugador no esta siendo visto
+            }
+
         }
-      
     }
+    
     // en caso de que algo ande mal Descomentar esto :D
     
     private void OnTriggerExit(Collider collision)
@@ -201,6 +212,7 @@ public class Enemy_Survilance : MonoBehaviour
                 _enemyAgent.LastPlayerPosition = collision.transform.position;
             }
             _playerInSight = false; // marca que el jugador no esta siendo visto
+            hasPlayedDetectionSound = false;
         }
     }
 }

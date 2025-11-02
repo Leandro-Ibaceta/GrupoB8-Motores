@@ -14,17 +14,21 @@ public class DoorMechanism : MonoBehaviour
     [Header("Player Layer")]
     [SerializeField] private LayerMask _detectionLayer;
 
-
+    [Header("Audio Settings")] // 🔊 NUEVO
+    [SerializeField] private AudioSource doorAudioSource;
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioClip closeSound;
 
     private Inventory _playerInventory;
     private UIManager _uiManager;
     private bool _isOpen = false;
     private Vector3 _doorHeightOffset;
     private Vector3 _startPosition;
-   
+    private bool _hasPlayedOpenSound = false; // 🔊 NUEVO
+
     private void Start()
     {
-        // calcula la posicion a la que se movera la puerta al abrirse
+
         _doorHeightOffset = transform.position + transform.up * _doorheigt;
         _playerInventory = GameManager.instance.Inventory;
         _startPosition = transform.position;
@@ -39,36 +43,54 @@ public class DoorMechanism : MonoBehaviour
         if (_isOpen)
         {
             transform.parent.position = Vector3.MoveTowards(transform.position, _doorHeightOffset, _openSpeed * Time.deltaTime);
+
+            // 🔊 reproducir sonido una sola vez al abrir
+            if (!_hasPlayedOpenSound && doorAudioSource != null && openSound != null)
+            {
+                doorAudioSource.PlayOneShot(openSound);
+                _hasPlayedOpenSound = true;
+                Debug.Log("[DOOR] Puerta abierta, reproduciendo sonido");
+            }
         }
         else
         {
             transform.parent.position = Vector3.MoveTowards(transform.position, _startPosition, _closeSpeed * Time.deltaTime);
         }
+
+        // cuando termina de abrirse, iniciar temporizador de cierre
         if (Vector3.Distance(transform.position, _doorHeightOffset) < 0.1f)
         {
             Invoke("CloseDoor", _openedTime);
         }
-      
-  
+
 
     }
 
     private void CloseDoor()
     {
         _isOpen = false;
-    }   
 
+        // 🔊 sonido de cierre opcional
+        if (doorAudioSource != null && closeSound != null)
+        {
+            doorAudioSource.PlayOneShot(closeSound);
+        }
+
+        _hasPlayedOpenSound = false; // 🔊 permitir reproducir otra vez al volver a abrir
+    }
 
     private void OnTriggerEnter(Collider collision)
     {
-      
-        // Si el objeto que entra en el trigger es el jugador,
-        // verifica si tiene la llave correcta para abrir la puerta
+        Debug.Log("[DOOR] Trigger detectado con " + collision.gameObject.name);
         if (((1 << collision.gameObject.layer) & _detectionLayer) != 0)
         {
+
+             _isOpen = true;
+        Debug.Log("[DOOR] Forzando apertura de prueba");
+          
             if (_playerInventory.Items.ContainsKey(_keyItem))
             {
-               if(_playerInventory.Items[_keyItem] >= _securityLevel)
+                if (_playerInventory.Items[_keyItem] >= _securityLevel)
                 {
                     _isOpen = true;
                 }
@@ -79,7 +101,7 @@ public class DoorMechanism : MonoBehaviour
             }
             else
             {
-                if(_securityLevel == 0)
+                if (_securityLevel == 0)
                 {
                     _isOpen = true;
                     return;
@@ -87,9 +109,5 @@ public class DoorMechanism : MonoBehaviour
                 _uiManager.PopUpMessageTimed("You need a key with security level: " + _securityLevel);
             }
         }
-        
-
     }
-
-
 }
