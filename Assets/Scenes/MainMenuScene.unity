@@ -189,11 +189,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 192511460085044077, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000061035
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 192511460085044077, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.0024
+      value: -1.0023804
       objectReference: {fileID: 0}
     - target: {fileID: 192511460085044077, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -210,6 +210,30 @@ PrefabInstance:
     - target: {fileID: 476572451785267155, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
       propertyPath: m_Name
       value: MainMenuUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845175455791896477, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845175455791896477, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.7598685
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845175455791896477, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 0.24842751
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845175455791896477, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.5345911
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845175455791896477, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 0.5345911
+      objectReference: {fileID: 0}
+    - target: {fileID: 4845175455791896477, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.5345911
       objectReference: {fileID: 0}
     - target: {fileID: 5359218064983513983, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}
       propertyPath: m_fontAsset
@@ -381,6 +405,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 901681798960824007, guid: 15396da827ec43c4fbc922ffda9aba18, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 5725357187072026981, guid: 725a9ad34a6016a40a4640e8138a176d, type: 2}
+    - target: {fileID: 919679020099622701, guid: 15396da827ec43c4fbc922ffda9aba18, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5361145585967025645, guid: 15396da827ec43c4fbc922ffda9aba18, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -428,8 +460,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5361145585967025645, guid: 15396da827ec43c4fbc922ffda9aba18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1262903937}
   m_SourcePrefab: {fileID: 100100000, guid: 15396da827ec43c4fbc922ffda9aba18, type: 3}
+--- !u!1 &1262903925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5361145585967025645, guid: 15396da827ec43c4fbc922ffda9aba18, type: 3}
+  m_PrefabInstance: {fileID: 1009673126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1262903937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262903925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f6e47cc26531741b1e02a248f3bb57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1263567512 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 192511460085044077, guid: 31b87b5c5006f1f4a97d4015ff718471, type: 3}

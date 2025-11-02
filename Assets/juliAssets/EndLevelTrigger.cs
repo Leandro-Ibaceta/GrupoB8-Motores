@@ -13,10 +13,12 @@ public class EndLevelTrigger : MonoBehaviour
 
     [Header("Story")]
     [TextArea(3, 6)]
-    public string[] storyLines;               // Líneas que se van mostrando
-    public float timeBetweenLines = 2f;       // Tiempo entre una línea y otra
+    public string[] storyLines;               // Lï¿½neas que se van mostrando
+    public float timeBetweenLines = 2f;       // Tiempo entre una lï¿½nea y otra
 
     private bool triggered = false;
+    public AudioSource winMusic;
+    public AudioSource audioSource;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,13 +26,17 @@ public class EndLevelTrigger : MonoBehaviour
         {
             triggered = true;
             StartCoroutine(PlayCinematic());
+            
         }
     }
 
     private IEnumerator PlayCinematic()
     {
         cinematicUI.SetActive(true);
-        yield return new WaitForSeconds(0.5f); // pequeño delay opcional
+        yield return new WaitForSeconds(0.5f); // pequeï¿½o delay opcional
+        audioSource.Stop();
+        winMusic.Play();
+        
 
         foreach (string line in storyLines)
         {
@@ -38,14 +44,14 @@ public class EndLevelTrigger : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenLines);
         }
 
-        // Al terminar todas las líneas
+        // Al terminar todas las lï¿½neas
         if (!string.IsNullOrEmpty("WinScene"))
         {
             SceneManager.LoadScene("WinScene");
         }
         else
         {
-            // O simplemente cerrás la UI
+            // O simplemente cerrï¿½s la UI
             cinematicUI.SetActive(false);
         }
     }

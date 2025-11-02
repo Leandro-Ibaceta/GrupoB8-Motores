@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 91549921423d237429afd630159e9f2f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _patrolSector: {instanceID: 0}
+  - stealthSnapshot: {fileID: 24500006, guid: 725a9ad34a6016a40a4640e8138a176d, type: 2}
+  - pursuitSnapshot: {fileID: 2313974498033530155, guid: 725a9ad34a6016a40a4640e8138a176d, type: 2}
+  - pursuitAudioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -81,6 +81,9 @@ MonoBehaviour:
   _minimalAttackDistance: 20
   _searchingTime: 2.5
   _stoppingDistanceVisualization: {r: 0.9811321, g: 0, b: 0, a: 1}
+  stealthSnapshot: {fileID: 24500006, guid: 725a9ad34a6016a40a4640e8138a176d, type: 2}
+  pursuitSnapshot: {fileID: 2313974498033530155, guid: 725a9ad34a6016a40a4640e8138a176d, type: 2}
+  transitionTime: 1.5
 --- !u!114 &7126519996552256104
 MonoBehaviour:
   m_ObjectHideFlags: 0

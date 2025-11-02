@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using UnityEngine.Audio;
 
 public class Enemy_agent : MonoBehaviour
 {
@@ -33,9 +34,13 @@ public class Enemy_agent : MonoBehaviour
 
     [Header("GUI attributes")]
     [SerializeField] private Color _stoppingDistanceVisualization = Color.red;
+
+
     #endregion
     #region INTERNAL_ATTRIBUTES
+
     private ENEMY_STATE _actualState = ENEMY_STATE.PATROLLING;
+    private ENEMY_STATE _previousState;
     private Vector3 _startWaypoint;
     private int _nextWaypoint=1;
     private NavMeshAgent _agent;
@@ -44,8 +49,14 @@ public class Enemy_agent : MonoBehaviour
     private float _elapsedTime=0;
     private Transform _player;
     private Enemy _enemy;
+
+    private float pursuitTimer = 0f;
+    private float pursuitCooldown = 3f; // tiempo que espera antes de volver a stealth
+
+    
     #endregion
     #region PROPERTIES
+
     public bool OnInvestigation
     {
         get { return _onInvestigation; }
@@ -83,14 +94,20 @@ public class Enemy_agent : MonoBehaviour
         _agent.stoppingDistance = _stoppingDistance;
         _player = GameManager.instance.PlayerManager.PlayerObject.transform;
         _enemy = GetComponent<Enemy>();
+
     }
     void Update()
     {
-       // Estado actual del enemigo
+
+        if (_actualState != _previousState)
+        {
+            _previousState = _actualState;
+        }
+        // Estado actual del enemigo
         switch (_actualState)
         {
             case ENEMY_STATE.PATROLLING:
-                 Patrol();
+                Patrol();
                 break;
             case ENEMY_STATE.INVESTIGATING:
                 Investigate();
@@ -102,11 +119,13 @@ public class Enemy_agent : MonoBehaviour
                 Attack();
                 break;
         }
-       
+
     }
+    
     // cambiar a State Patter mas adelante
     private void Attack()
     {
+        
         // comprueba la existencia del jugador antes de querer atacar
         if (_player == null) return;
         if (_agent.isStopped) return;
@@ -125,6 +144,7 @@ public class Enemy_agent : MonoBehaviour
     private void Investigate()
     {
 
+        
         // si no esta en modo busqueda, comprueba si no fue detenido ( por el estado SEARCHING)
         if (!_onInvestigation)
         {
@@ -134,11 +154,11 @@ public class Enemy_agent : MonoBehaviour
             _agent.speed = _searchingSpeed;
             _agent.destination = _lastPlayerPosition;
             _onInvestigation = true;
-        } 
+        }
         else if (!_agent.pathPending && _agent.remainingDistance <= _stoppingDistance)
         {
             // en caso de haber llegado a destino, sin haber encontrado nada, se pasas a estado SEARCHING
-            _actualState = ENEMY_STATE.SEARCHING; 
+            _actualState = ENEMY_STATE.SEARCHING;
         }
 
 
@@ -226,8 +246,6 @@ public class Enemy_agent : MonoBehaviour
 
         }
     }
-
-   
 
 
     #region ON_SCENE_VISUALIZATION
