@@ -8162,7 +8162,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -12181,7 +12181,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194003107}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.021079961, y: 0.09089794, z: 0.0019245252, w: 0.9956352}
+  m_LocalRotation: {x: -0.021127675, y: 0.11249733, z: 0.0023925388, w: 0.99342453}
   m_LocalPosition: {x: -30.15, y: 1.6095432, z: 21.59234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12506,7 +12506,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197892343}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.021127306, y: 0.09091012, z: 0.0019291103, w: 0.9956331}
+  m_LocalRotation: {x: -0.02112767, y: 0.11249732, z: 0.0023925384, w: 0.99342453}
   m_LocalPosition: {x: -30.15, y: 1.6095432, z: 21.59234}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -67253,7 +67253,7 @@ Transform:
   m_GameObject: {fileID: 1533345756}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.07539982, z: -0, w: 0.9971534}
-  m_LocalPosition: {x: -24.221388, y: 1.6500001, z: 23.673903}
+  m_LocalPosition: {x: -29.121387, y: 1.6500001, z: 23.673903}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

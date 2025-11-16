@@ -102,6 +102,8 @@ public class PlayerInputs : MonoBehaviour
     // Actualiza los inputs cada frame
     void Update()
     {
+        if (!GameManager.instance.InputEnable)
+            return;
         // Obtiene los ejes del mouse , aplicando la sensibilidad y la inversion segun las configuraciones
         _mouseYAxis = (_isMouseYAxisInverted ? -1 : 1) * (-Input.GetAxis("Mouse Y") * _mouseVerticallSensitivity);
         _mouseXAxis = (_isMouseXAxisInverted ? -1 : 1) * (Input.GetAxis("Mouse X") * _mouseHorizontalSensitivity);

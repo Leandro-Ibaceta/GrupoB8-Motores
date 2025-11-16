@@ -37,6 +37,7 @@ public class UIDialogue : MonoBehaviour
 
         ShowLine();
     }
+    
 
     public void NextLines()
     {
