@@ -21,7 +21,9 @@ public class GameManager : MonoBehaviour
     private Inventory _inventory;
     private EnemyManager _enemyManager;
     private UIManager _uiManager;
+    private bool inputEnabled = true;
 
+    public bool InputEnable => inputEnabled;
     public string MainMenuSceneName => _mainMenuSceneName;
     public string GameSceneName => _gameSceneName;
     public string WinSceneName => _winSceneName;
@@ -52,9 +54,19 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
-    
- 
+    public void Start()
+    {
+        GameEvents.OnDialogueStarted += DisableInput;
+        GameEvents.OnDialogueEnded += EnableInput;
+
+    }
+    private void OnDestroy()
+    {
+        GameEvents.OnDialogueStarted -= DisableInput;
+        GameEvents.OnDialogueEnded -= EnableInput;
+    }
+
+
 
 
     public void SetGameStatus()
@@ -129,4 +141,14 @@ public class GameManager : MonoBehaviour
         LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void EnableInput()
+    {
+        inputEnabled = true;
+        _inputs.ChangeCursorLockState(CursorLockMode.Locked);
+    }
+    public void DisableInput(IDialogue dialogue)
+    {
+        inputEnabled = false;
+        _inputs.ChangeCursorLockState(CursorLockMode.None);
+    }
 }
