@@ -14,6 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Lines:
   - Speaker: ChatPPT
-    Text: Hola! Soy Chat PPT
+    Text: Ey! Por fin llegaste. La situacion es complicada pero se que lo lograras.
   - Speaker: ChatPPT
-    Text: Bienvenido a bla bla bla
+    Text: Tienes que llegar al centro de mando donde se encuentra la IA para desactivarla.
+      Pero no sera facil, muchos guardias vigilan el piso.
+  - Speaker: ChatPPT
+    Text: Que no te acuerdas lo basico? Te lo explico rapidamente.
+  - Speaker: ChatPPT
+    Text: Te mueves con WASD y usas el mouse para mover la Camara.
+  - Speaker: ChatPPT
+    Text: Manten apretado Click Derecho para apuntar y Click Izquierdo para disparar
+      los tranquilizantes
+  - Speaker: ChatPPT
+    Text: Presiona C para agacharte y SHIFT para correr. Ten cuidado con tu stamina
+      que se agota rapido.
+  - Speaker: ChatPPT
+    Text: Encontras herramientas a lo largo del piso para utilizar en contra de los
+      guardias. Buena suerte.
