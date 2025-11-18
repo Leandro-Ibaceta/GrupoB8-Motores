@@ -7,11 +7,11 @@ public class NPC : MonoBehaviour, IDialogue
 
     private void OnEnable()
     {
-        
+       
     }
     private void OnDisable()
     {
-
+       
     }
 
     public void EndConversation()
