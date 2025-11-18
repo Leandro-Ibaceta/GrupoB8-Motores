@@ -17,17 +17,20 @@ MonoBehaviour:
     Text: Ey! Por fin llegaste. La situacion es complicada pero se que lo lograras.
   - Speaker: ChatPPT
     Text: Tienes que llegar al centro de mando donde se encuentra la IA para desactivarla.
-      Pero no sera facil, muchos guardias vigilan el piso.
+      Pero no sera facil, muchos guardias vigilan el piso, puedes neutralizar algunos,
+      pero otros son inmunes a tus ataques.
   - Speaker: ChatPPT
     Text: Que no te acuerdas lo basico? Te lo explico rapidamente.
   - Speaker: ChatPPT
     Text: Te mueves con WASD y usas el mouse para mover la Camara.
   - Speaker: ChatPPT
     Text: Manten apretado Click Derecho para apuntar y Click Izquierdo para disparar
-      los tranquilizantes
+      los dardos paralizantes.Tira una granada de humo con G para distraer a los
+      guardias que te hayan visto y poder escapar.
   - Speaker: ChatPPT
-    Text: Presiona C para agacharte y SHIFT para correr. Ten cuidado con tu stamina
-      que se agota rapido.
+    Text: Presiona CTRL IZQ para agacharte/arrastrarte y ESPACIO para levantarte
+      nuevamente. Utiliza SHIFT para correr. pero ten cuidado con tu stamina que
+      se agota rapido. Puedes regenerarla si tienes refrescos utilizando Q.
   - Speaker: ChatPPT
-    Text: Encontras herramientas a lo largo del piso para utilizar en contra de los
-      guardias. Buena suerte.
+    Text: Encontraras herramientas a lo largo del piso para utilizar en contra de
+      los guardias. Buena suerte.
