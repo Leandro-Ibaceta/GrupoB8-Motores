@@ -9,6 +9,8 @@ public class Item : ScriptableObject
     [Header("UI Attributes")]
     [SerializeField] private Sprite _UISprite;
 
+    
+
 
     public int MaxStack => _maxStack;
     public string ItemName => name;

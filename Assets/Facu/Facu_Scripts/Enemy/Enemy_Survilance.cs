@@ -180,7 +180,7 @@ public class Enemy_Survilance : MonoBehaviour
                     {
                         detectionAudioSource.PlayOneShot(detectionClip);
                         hasPlayedDetectionSound = true;
-                        Debug.Log("[ENEMY] Jugador detectado → sonido de alerta reproducido");
+                        
                     }
                 }
 
