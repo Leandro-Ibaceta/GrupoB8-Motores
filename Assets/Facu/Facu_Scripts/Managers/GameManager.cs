@@ -78,9 +78,9 @@ public class GameManager : MonoBehaviour
         _uiManager.enabled = true;
         _inputs.enabled = true;
         _playerStartPosition = _playerSpawnPoint.position;
-        _checkPointManager.ResetAll();
-        _enemyManager.FindEnemies();
-        _playerManager.PlayerObject.transform.position = _playerStartPosition;
+         //   _checkPointManager.ResetAll();
+         //   _enemyManager.FindEnemies();
+         //   _playerManager.PlayerObject.transform.position = _playerStartPosition;
 
     }
     public void SetMenuStatus()

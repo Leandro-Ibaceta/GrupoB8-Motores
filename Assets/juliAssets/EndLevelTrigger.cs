@@ -17,8 +17,7 @@ public class EndLevelTrigger : MonoBehaviour
     public float timeBetweenLines = 2f;       // Tiempo entre una l�nea y otra
 
     private bool triggered = false;
-    public AudioSource winMusic;
-    public AudioSource audioSource;
+   
 
     private void OnTriggerEnter(Collider other)
     {
@@ -34,8 +33,7 @@ public class EndLevelTrigger : MonoBehaviour
     {
         cinematicUI.SetActive(true);
         yield return new WaitForSeconds(0.5f); // peque�o delay opcional
-        audioSource.Stop();
-        winMusic.Play();
+        
         
 
         foreach (string line in storyLines)
