@@ -4,18 +4,19 @@ public class Pickup : MonoBehaviour
 {
     [Header("Item to pickup reference")]
     [SerializeField] private Item item;
-
+    
 
     private Inventory _inventory;
     private PlayerManager _playerManager;
     private CheckPointManager _pickUpsManager;
-
-
-    private void Start()
+    private UIManager _uiManager;   // ← NUEVO
+   private void Start()
     {
         _pickUpsManager = GameManager.instance.CheckPointManager;
         _inventory = GameManager.instance.Inventory;
-       _playerManager = GameManager.instance.PlayerManager;
+        _playerManager = GameManager.instance.PlayerManager;
+
+        _uiManager = FindFirstObjectByType<UIManager>();
     }
 
 
@@ -25,11 +26,21 @@ public class Pickup : MonoBehaviour
     {
         if (_playerManager.CompareLayer(other.gameObject.layer))
         {
-            if(_inventory.AddItem(item))
+            if (_inventory.AddItem(item))
             {
+                if (_uiManager != null)
+                {
+                    _uiManager.PlayItemPickupSFX();
+                    _uiManager.ShowPickupItemMessage(item);  
+                }
+
                 _pickUpsManager.DeletePickUp(gameObject.name);
                 gameObject.SetActive(false);
-
+            }
+            else
+            {
+                if (_uiManager != null)
+                    _uiManager.ShowInventoryFullMessage();
             }
         }
     }
