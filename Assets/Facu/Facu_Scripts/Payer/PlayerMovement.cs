@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using UnityEngine;
@@ -6,6 +6,7 @@ using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
     [SerializeField] private float _walkSpeed = 8;
     [SerializeField] private float _crouchSpeed = 5;
     [SerializeField] private float _crawlSpeed = 2;
@@ -31,9 +32,12 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAnimation _animation;
     private PlayerStamina _stamina;
 
+    
     public bool OnShoulderCam => _onShoulderCam;
-    public int Stance { get { return _stance; } set { _stance = math.clamp(value, 0, 2);}}
+    public int Stance { get { return _stance; } set { _stance = math.clamp(value, 0, 2); } }
     public bool HaveStamina { get { return _haveStamina; } set { _haveStamina = value; } }
+
+    public bool _canMove = true;
 
     private void Start()
     {
@@ -50,9 +54,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!_canMove)
+        {
+            _controller.Move(transform.up * -_gravity * Time.deltaTime);
+            return;
+        }
+
         if (_inputs.IsSprintPressed)
-            _actualSpeed *= _sprintMultiplier;
-        if(_inputs.IsSprintHeldPressed)
+            _actualSpeed *= _walkSpeed;
+        if (_inputs.IsSprintHeldPressed)
         {
             _stamina.DrainStamina(Time.deltaTime);
         }
@@ -79,15 +89,31 @@ public class PlayerMovement : MonoBehaviour
 
         }
         _newRotation = transform.rotation * Quaternion.Euler(0, _rotationAngle, 0);
-        _controller.transform.rotation=_newRotation;
+        _controller.transform.rotation = _newRotation;
+
+        if (!HaveStamina)
+        {
+            if (_stance == 0) _actualSpeed = _walkSpeed;
+            else if (_stance == 1) _actualSpeed = _crouchSpeed;
+            else if (_stance == 2) _actualSpeed = _crawlSpeed;
+        }
+
         _controller.Move((_direction.normalized * _actualSpeed) * Time.deltaTime);
         _reativeSpeed = _controller.velocity.magnitude / _actualSpeed;
-        if(_inputs.IsSprintHeldPressed)
-            ChangeAnimationOnVelocity(_reativeSpeed*2);
-        else {
+
+        if (!HaveStamina)
+        {
+            ChangeAnimationOnVelocity(_reativeSpeed);   // sin multiplicar
+            return;
+        }
+
+        if (_inputs.IsSprintHeldPressed)
+            ChangeAnimationOnVelocity(_reativeSpeed * 2);
+        else
+        {
             ChangeAnimationOnVelocity(_reativeSpeed);
         }
-        _controller.Move(transform.up * -_gravity*Time.deltaTime);
+        _controller.Move(transform.up * -_gravity * Time.deltaTime);
     }
 
     private void ChangeAnimationOnVelocity(float relativeSpeed)
@@ -99,13 +125,13 @@ public class PlayerMovement : MonoBehaviour
     }
     private void StanceValue(bool lowerStance)
     {
-        if (lowerStance)_stance++;
+        if (lowerStance) _stance++;
         else _stance--;
         _stance = math.clamp(_stance, 0, 2);
-        ChangeStance(_stance);   
+        ChangeStance(_stance);
     }
 
-    private void ChangeStance(int newValue) 
+    private void ChangeStance(int newValue)
     {
         switch (newValue)
         {
@@ -133,5 +159,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 }
+
 
 

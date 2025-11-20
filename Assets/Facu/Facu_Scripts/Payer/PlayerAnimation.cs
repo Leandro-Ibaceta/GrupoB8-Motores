@@ -14,24 +14,47 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private AudioSource _shootAudioSource;
     [SerializeField] private AudioSource _grenadeAudioSource;
 
-
-
     private PlayerManager _playerManager;
+
+    private bool _locked;
 
     private void Start()
     {
         _playerManager = GameManager.instance.PlayerManager;
     }
 
+    public void SetLocked(bool locked)
+    {
+        _locked = locked;
+
+        if (locked)
+        {
+            
+            _animator.SetFloat(_speedParameterName, 0f);
+            _animator.SetBool(_crouchParameterName, false);
+            _animator.SetBool(_crawlParameterName, false);
+            _animator.ResetTrigger(_attackTriggerName);
+            _animator.ResetTrigger(_granadeTriggerName);
+            
+            _animator.applyRootMotion = false;
+        }
+        else
+        {
+            _animator.applyRootMotion = true;
+        }
+    }
     public void ChangePlayerSpeed(float newValue)
     {
+        if (_locked) return;
         _animator.SetFloat(_speedParameterName,Mathf.Clamp(newValue,0,2));
     }
 
 
     public void ChangeStanceValue(int stanceStep)
     {
-        switch(stanceStep)
+        if (_locked) return;
+
+        switch (stanceStep)
         {
             case 0:
                 _animator.SetBool(_crouchParameterName, false);
@@ -50,7 +73,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void ChangeAnimationSpeed(float newValue)
     {
-        newValue = Mathf.Clamp(newValue, 0.01f, 10);
+        newValue = Mathf.Clamp(newValue, 0f, 10);
         _animator.speed = newValue;
 
     }
