@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    
-
     [SerializeField] private GameObject _controlMenu;
     [SerializeField] private GameObject _inGameMenu;
     [SerializeField] private GameObject _HUD;
@@ -22,37 +20,41 @@ public class UIManager : MonoBehaviour
     [Header("Inventory Sounds")]
     [SerializeField] private AudioClip itemPickupSFX;
    
-    // private MainMenu _mainMenu
     private TMP_Text _interactMessage;
     private PlayerInputs _inputs;
     private GameObject _activeMenu;
 
     public static UIManager Instance { get; private set; }
     
-
     public TMP_Text InteractMessage { get { return _interactMessage; } }
+
     public GameObject ControlMenu
     {
-        get { 
+        get 
+        { 
             if(_controlMenu == null)
             {
-                return FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+                var cm = FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include);
+                if (cm != null) _controlMenu = cm.gameObject;
             }
-            return _controlMenu; }
+            return _controlMenu; 
+        }
     }
+
     public GameObject InGameMenu
     {
         get
         {
             if (_inGameMenu == null)
             {
-                return FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
+                var igm = FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include);
+                if (igm != null) _inGameMenu = igm.gameObject;
             }
             return _inGameMenu;
         }
     }
 
-     private void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -62,19 +64,37 @@ public class UIManager : MonoBehaviour
 
         Instance = this;
     }
+
     private void Start()
     {
         _inputs = GameManager.instance.Inputs;
-        SceneManager.sceneLoaded += (scene, mode) =>
+
+        // Cuando cambia de escena, solo buscamos refs si es la GameScene
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Si ya estamos en la GameScene al arrancar, buscamos refs
+        if (SceneManager.GetActiveScene().name == GameManager.instance.GameSceneName)
         {
             SearchRefereeces();
-        };
-        SearchRefereeces();
+        }
     }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == GameManager.instance.GameSceneName)
+        {
+            SearchRefereeces();
+        }
+    }
+
     private void Update()
     {
-
-        if(_inputs.IsEscapeClicked)
+        if (_inputs != null && _inputs.IsEscapeClicked)
         {
             ActiveMenu(_activeMenu);
         }
@@ -82,13 +102,24 @@ public class UIManager : MonoBehaviour
 
     public void PopUpMessage(string message)
     {
+        if (_interactMessage == null)
+        {
+            Debug.LogWarning("UIManager: InteractMessage es null, no puedo mostrar mensaje: " + message);
+            return;
+        }
+
         _interactMessage.text = message;
         _interactMessage.enabled = true;
     }
 
     public void PopUpMessageTimed(string message)
     {
-        // Si ya había un fade en curso, lo cortamos
+        if (_interactMessage == null)
+        {
+            Debug.LogWarning("UIManager: InteractMessage es null, no puedo mostrar mensaje: " + message);
+            return;
+        }
+
         if (_messageCoroutine != null)
         {
             StopCoroutine(_messageCoroutine);
@@ -99,23 +130,19 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator PopUpAndFade(string message)
     {
-        // Mostrar mensaje
         _interactMessage.text = message;
         _interactMessage.enabled = true;
 
-        // Aseguramos alpha en 1 al inicio
         Color c = _interactMessage.color;
         c.a = 1f;
         _interactMessage.color = c;
 
-        // Tiempo que se queda quieto el texto antes de empezar a desvanecerse
         yield return new WaitForSeconds(_popUpMessageTime);
 
-        // Fade out
         float t = 0f;
         while (t < _fadeOutDuration)
         {
-            t += Time.unscaledDeltaTime; // por si esta en pausa (Time.timeScale = 0)
+            t += Time.unscaledDeltaTime;
             float normalized = 1f - (t / _fadeOutDuration);
             c.a = Mathf.Clamp01(normalized);
             _interactMessage.color = c;
@@ -140,29 +167,81 @@ public class UIManager : MonoBehaviour
             _messageCoroutine = null;
         }
 
-        // Opcional: dejar el alpha en 0 por las dudas
-        Color c = _interactMessage.color;
-        c.a = 0f;
-        _interactMessage.color = c;
-
-        _interactMessage.enabled = false;
+        if (_interactMessage != null)
+        {
+            Color c = _interactMessage.color;
+            c.a = 0f;
+            _interactMessage.color = c;
+            _interactMessage.enabled = false;
+        }
     }
-
 
     private void SearchRefereeces()
     {
-        _inGameMenu = FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include).gameObject;
-        _controlMenu = FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include).gameObject;
+        // InGameMenu
+        var inGameMenu = FindFirstObjectByType<InGameMenu>(FindObjectsInactive.Include);
+        if (inGameMenu != null)
+        {
+            _inGameMenu = inGameMenu.gameObject;
+        }
+        else
+        {
+            _inGameMenu = null;
+            Debug.LogWarning("UIManager: no encontré InGameMenu en la escena " + SceneManager.GetActiveScene().name);
+        }
+
+        // ControlMenu
+        var controlMenu = FindFirstObjectByType<ControlMenu>(FindObjectsInactive.Include);
+        if (controlMenu != null)
+        {
+            _controlMenu = controlMenu.gameObject;
+        }
+        else
+        {
+            _controlMenu = null;
+            Debug.LogWarning("UIManager: no encontré ControlMenu en la escena " + SceneManager.GetActiveScene().name);
+        }
+
+        // HUD
         _HUD = GameObject.Find("HUD");
-        _interactMessage = GameObject.Find("Interact_message").GetComponent<TMP_Text>();
-        _activeMenu = InGameMenu;
+        if (_HUD == null)
+        {
+            Debug.LogWarning("UIManager: no encontré HUD en la escena " + SceneManager.GetActiveScene().name);
+        }
+
+        // Interact_message
+        var interactGO = GameObject.Find("Interact_message");
+        if (interactGO != null)
+        {
+            _interactMessage = interactGO.GetComponent<TMP_Text>();
+        }
+        else
+        {
+            _interactMessage = null;
+            Debug.LogWarning("UIManager: no encontré Interact_message en la escena " + SceneManager.GetActiveScene().name);
+        }
+
+        _activeMenu = _inGameMenu;
     }
 
     public void ActiveMenu(GameObject activeMenu)
     {
-       
-        if(activeMenu == null) SearchRefereeces();
-        else _activeMenu = activeMenu;
+        // Si en esta escena no hay menú, no hacemos nada
+        if (_activeMenu == null && activeMenu == null)
+        {
+            return;
+        }
+
+        if (activeMenu == null)
+        {
+            SearchRefereeces();
+        }
+        else
+        {
+            _activeMenu = activeMenu;
+        }
+
+        if (_activeMenu == null) return;
 
         if (!_activeMenu.activeSelf)
         {
@@ -199,6 +278,5 @@ public class UIManager : MonoBehaviour
         string msg = $"+1 {item.ItemName}";
         PopUpMessageTimed(msg);
     }
-
-
+    
 }
